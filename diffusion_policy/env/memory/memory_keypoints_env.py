@@ -1,12 +1,13 @@
 from typing import Dict, Sequence, Union, Optional
 from gym import spaces
 from diffusion_policy.env.memory.memory_env import MemoryEnv
-from diffusion_policy.env.memory.pymunk_memory_keypoint_manager import PymunkKeypointManager
+from diffusion_policy.env.pusht.pymunk_keypoint_manager import PymunkKeypointManager
 import numpy as np
 
 class MemoryKeypointsEnv(MemoryEnv):
     def __init__(self,
             legacy=False,
+            block_cog=None, 
             damping=None,
             render_size=96,
             keypoint_visible_rate=1.0, 
@@ -18,13 +19,12 @@ class MemoryKeypointsEnv(MemoryEnv):
             color_map: Optional[Dict[str, np.ndarray]]=None):
         super().__init__(
             legacy=legacy, 
+            block_cog=block_cog,
             damping=damping,
             render_size=render_size,
             reset_to_state=reset_to_state,
             render_action=render_action)
-        
         ws = self.window_size
-        self.memory_goal = None
 
         if local_keypoint_map is None:
             # create default keypoint definition
@@ -33,10 +33,18 @@ class MemoryKeypointsEnv(MemoryEnv):
             color_map = kp_kwargs['color_map']
 
         # create observation spaces
+        Dblockkps = np.prod(local_keypoint_map['block'].shape)
         Dagentkps = np.prod(local_keypoint_map['agent'].shape)
-        Dgoal_kps = 2
+        Dagentpos = 2
 
-        Do = Dagentkps + Dgoal_kps if agent_keypoints else Dgoal_kps + 2
+        Do = Dblockkps
+        if agent_keypoints:
+            # blockkp + agnet_pos
+            Do += Dagentkps
+        else:
+            # blockkp + agnet_kp
+            Do += Dagentpos
+        # obs + obs_mask
         Dobs = Do * 2
 
         low = np.zeros((Dobs,), dtype=np.float64)
@@ -44,6 +52,7 @@ class MemoryKeypointsEnv(MemoryEnv):
         # mask range 0-1
         high[Do:] = 1.
 
+        # (block_kps+agent_kps, xy+confidence)
         self.observation_space = spaces.Box(
             low=low,
             high=high,
@@ -59,17 +68,18 @@ class MemoryKeypointsEnv(MemoryEnv):
             color_map=color_map)
         self.draw_kp_map = None
 
-
     @classmethod
     def genenerate_keypoint_manager_params(cls):
-        env = MemoryEnv()
-        kp_manager = PymunkKeypointManager.create_from_memory_env(env)
+        env = PushTEnv()
+        kp_manager = PymunkKeypointManager.create_from_pusht_env(env)
         kp_kwargs = kp_manager.kwargs
         return kp_kwargs
 
     def _get_obs(self):
         # get keypoints
-        obj_map = {}
+        obj_map = {
+            'block': self.block
+        }
         if self.agent_keypoints:
             obj_map['agent'] = self.agent
 
@@ -78,12 +88,6 @@ class MemoryKeypointsEnv(MemoryEnv):
         # python dict guerentee order of keys and values
         kps = np.concatenate(list(kp_map.values()), axis=0)
 
-        # NEW
-        # Add memory goal as a keypoint
-        if self.memory_goal is not None:
-            memory_goal_kp = self.memory_goal.reshape(-1, 2)
-            kps = np.vstack([kps, memory_goal_kp])
-        
         # select keypoints to drop
         n_kps = kps.shape[0]
         visible_kps = self.np_random.random(size=(n_kps,)) < self.keypoint_visible_rate
@@ -92,11 +96,11 @@ class MemoryKeypointsEnv(MemoryEnv):
         # save keypoints for rendering
         vis_kps = kps.copy()
         vis_kps[~visible_kps] = 0
-        draw_kp_map = {'memory_goal': vis_kps[-1:]}
-        
+        draw_kp_map = {
+            'block': vis_kps[:len(kp_map['block'])]
+        }
         if self.agent_keypoints:
             draw_kp_map['agent'] = vis_kps[len(kp_map['block']):]
-        
         self.draw_kp_map = draw_kp_map
         
         # construct obs

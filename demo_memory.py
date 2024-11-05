@@ -1,7 +1,7 @@
 import numpy as np
 import click
 from diffusion_policy.common.replay_buffer import ReplayBuffer
-from diffusion_policy.env.memory.memory_keypoints_env import MemoryKeypointsEnv
+from diffusion_policy.env.memory.memory_env import MemoryEnv
 import pygame
 
 @click.command()
@@ -10,9 +10,9 @@ import pygame
 @click.option('-hz', '--control_hz', default=10, type=int)
 def main(output, render_size, control_hz):
     """
-    Collect demonstration for the Memory task.
+    Collect demonstration for the Push-T task.
     
-    Usage: python demo_memory.py -o data/memory_demo.zarr
+    Usage: python demo_pusht.py -o data/pusht_demo.zarr
     
     This script is compatible with both Linux and MacOS.
     Hover mouse close to the blue circle to start.
@@ -26,9 +26,8 @@ def main(output, render_size, control_hz):
     # create replay buffer in read-write mode
     replay_buffer = ReplayBuffer.create_from_path(output, mode='a')
 
-    # create MemoryEnv with keypoints
-    kp_kwargs = MemoryKeypointsEnv.genenerate_keypoint_manager_params()
-    env = MemoryKeypointsEnv(render_size=render_size, render_action=False, **kp_kwargs)
+    # create PushT env with keypoints
+    env = MemoryEnv(render_size=render_size, render_action=False)
     agent = env.teleop_agent()
     clock = pygame.time.Clock()
     
@@ -85,15 +84,14 @@ def main(output, render_size, control_hz):
             if not act is None:
                 # teleop started
                 # state dim 2+3
-                state = info['pos_agent']
+                state = np.concatenate([info['pos_agent'], info['goal_pos']])
                 # discard unused information such as visibility mask and agent pos
                 # for compatibility
-                keypoint = obs.reshape(2,-1)[0].reshape(-1,2)[:9]
                 data = {
                     'img': img,
                     'state': np.float32(state),
-                    'keypoint': np.float32(keypoint),
-                    'action': np.float32(act)
+                    'action': np.float32(act),
+                    'n_contacts': np.float32([info['n_contacts']])
                 }
                 episode.append(data)
                 
