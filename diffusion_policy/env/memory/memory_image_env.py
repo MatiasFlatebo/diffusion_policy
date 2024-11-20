@@ -1,24 +1,23 @@
 from gym import spaces
-from diffusion_policy.env.memory.memory_env import MemoryEnv
+from diffusion_policy.env.memory.memory_env_v2 import MemoryEnv_v2
 import numpy as np
 import cv2
 
-class MemoryImageEnv(MemoryEnv):
+class MemoryImageEnv(MemoryEnv_v2):
     metadata = {"render.modes": ["rgb_array"], "video.frames_per_second": 10}
 
     def __init__(self,
             legacy=False,
+            block_cog=None, 
             damping=None,
             render_size=96):
         super().__init__(
             legacy=legacy, 
+            block_cog=block_cog,
             damping=damping,
             render_size=render_size,
             render_action=False)
-        
-        self.memory_goal = None
         ws = self.window_size
-        
         self.observation_space = spaces.Dict({
             'image': spaces.Box(
                 low=0,
@@ -33,7 +32,6 @@ class MemoryImageEnv(MemoryEnv):
                 dtype=np.float32
             )
         })
-    
         self.render_cache = None
     
     def _get_obs(self):
@@ -45,13 +43,7 @@ class MemoryImageEnv(MemoryEnv):
             'image': img_obs,
             'agent_pos': agent_pos
         }
-        
-        if self.memory_goal is not None:
-            goal_coord = (self.memory_goal / 512 * 96).astype(np.int32)
-            cv2.drawMarker(img, goal_coord,
-                        color=(0, 255, 0), markerType=cv2.MARKER_STAR,
-                        markerSize=8, thickness=2)
-        
+
         # draw action
         if self.latest_action is not None:
             action = np.array(self.latest_action)
@@ -61,7 +53,6 @@ class MemoryImageEnv(MemoryEnv):
             cv2.drawMarker(img, coord,
                 color=(255,0,0), markerType=cv2.MARKER_CROSS,
                 markerSize=marker_size, thickness=thickness)
-            
         self.render_cache = img
 
         return obs
