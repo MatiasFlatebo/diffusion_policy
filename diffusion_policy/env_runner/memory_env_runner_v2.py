@@ -36,6 +36,8 @@ class MemoryEnvRunner_v2(BaseLowdimRunner):
             fps=10,
             crf=22,
             past_action=False,
+            include_goal_obs=True,
+            goal_masking_timestep=20,
             tqdm_interval_sec=5.0,
             n_envs=None
         ):
@@ -58,6 +60,8 @@ class MemoryEnvRunner_v2(BaseLowdimRunner):
                 VideoRecordingWrapper(
                     MemoryEnv_v2(
                         legacy=legacy_test,
+                        include_goal_obs=include_goal_obs,
+                        goal_masking_timestep=goal_masking_timestep
                     ),
                     video_recoder=VideoRecorder.create_h264(
                         fps=fps,

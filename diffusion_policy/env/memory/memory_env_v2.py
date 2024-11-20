@@ -34,7 +34,9 @@ class MemoryEnv_v2(gym.Env):
             block_cog=None, damping=None,
             render_action=True,
             render_size=96,
-            reset_to_state=None
+            reset_to_state=None,
+            goal_masking_timestep=20,
+            include_goal_obs=True
         ):
         self._seed = None
         self.seed()
@@ -83,6 +85,8 @@ class MemoryEnv_v2(gym.Env):
         self.render_buffer = None
         self.latest_action = None
         self.reset_to_state = reset_to_state
+        self.include_goal_obs = include_goal_obs
+        self.goal_masking_timestep = goal_masking_timestep
         self.possible_goal_poses = np.array([[400,50], [112,50]])
     
     def reset(self):
@@ -126,7 +130,7 @@ class MemoryEnv_v2(gym.Env):
         info = self._get_info()
 
         # Check if goal_pos info should be hidden
-        if self.time_step == 20:
+        if self.time_step == self.goal_masking_timestep:
             self.hide_goal = True
 
         # Iterate time-step
