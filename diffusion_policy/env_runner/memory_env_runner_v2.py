@@ -37,7 +37,7 @@ class MemoryEnvRunner_v2(BaseLowdimRunner):
             crf=22,
             past_action=False,
             include_goal_obs=True,
-            goal_masking_timestep=20,
+            goal_masking_timestep=10,
             tqdm_interval_sec=5.0,
             n_envs=None
         ):

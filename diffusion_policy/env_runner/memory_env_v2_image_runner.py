@@ -6,9 +6,8 @@ import pathlib
 import tqdm
 import dill
 import math
-import time
 import wandb.sdk.data_types.video as wv
-from diffusion_policy.env.memory.memory_image_env import MemoryImageEnv
+from diffusion_policy.env.memory.memory_env_v2 import MemoryEnv_v2
 from diffusion_policy.gym_util.async_vector_env import AsyncVectorEnv
 # from diffusion_policy.gym_util.sync_vector_env import SyncVectorEnv
 from diffusion_policy.gym_util.multistep_wrapper import MultiStepWrapper
@@ -21,7 +20,6 @@ from diffusion_policy.env_runner.base_image_runner import BaseImageRunner
 class MemoryImageEnvRunner(BaseImageRunner):
     def __init__(self,
             output_dir,
-            keypoint_visible_rate=1.0,
             n_train=10,
             n_train_vis=3,
             train_start_seed=0,
@@ -32,33 +30,24 @@ class MemoryImageEnvRunner(BaseImageRunner):
             max_steps=200,
             n_obs_steps=8,
             n_action_steps=8,
-            n_latency_steps=0,
             fps=10,
             crf=22,
-            #agent_keypoints=False,
+            render_size=96,
             past_action=False,
             tqdm_interval_sec=5.0,
             n_envs=None
         ):
         super().__init__(output_dir)
-
         if n_envs is None:
             n_envs = n_train + n_test
 
-        # handle latency step
-        # to mimic latency, we request n_latency_steps additional steps 
-        # of past observations, and the discard the last n_latency_steps
-        env_n_obs_steps = n_obs_steps + n_latency_steps
-        env_n_action_steps = n_action_steps
-
-        # assert n_obs_steps <= n_action_steps
-        #kp_kwargs = PushTKeypointsEnv.genenerate_keypoint_manager_params()
-
+        steps_per_render = max(10 // fps, 1)
         def env_fn():
             return MultiStepWrapper(
                 VideoRecordingWrapper(
-                    MemoryImageEnv(
+                    MemoryEnv_v2(
                         legacy=legacy_test,
+                        render_size=render_size
                     ),
                     video_recoder=VideoRecorder.create_h264(
                         fps=fps,
@@ -69,9 +58,10 @@ class MemoryImageEnvRunner(BaseImageRunner):
                         thread_count=1
                     ),
                     file_path=None,
+                    steps_per_render=steps_per_render
                 ),
-                n_obs_steps=env_n_obs_steps,
-                n_action_steps=env_n_action_steps,
+                n_obs_steps=n_obs_steps,
+                n_action_steps=n_action_steps,
                 max_episode_steps=max_steps
             )
 
@@ -126,7 +116,7 @@ class MemoryImageEnvRunner(BaseImageRunner):
                 # set seed
                 assert isinstance(env, MultiStepWrapper)
                 env.seed(seed)
-
+            
             env_seeds.append(seed)
             env_prefixs.append('test/')
             env_init_fn_dills.append(dill.dumps(init_fn))
@@ -146,10 +136,8 @@ class MemoryImageEnvRunner(BaseImageRunner):
         self.env_init_fn_dills = env_init_fn_dills
         self.fps = fps
         self.crf = crf
-        #self.agent_keypoints = agent_keypoints
         self.n_obs_steps = n_obs_steps
         self.n_action_steps = n_action_steps
-        self.n_latency_steps = n_latency_steps
         self.past_action = past_action
         self.max_steps = max_steps
         self.tqdm_interval_sec = tqdm_interval_sec
@@ -157,7 +145,6 @@ class MemoryImageEnvRunner(BaseImageRunner):
     def run(self, policy: BaseImagePolicy):
         device = policy.device
         dtype = policy.dtype
-
         env = self.env
 
         # plan for rollout
@@ -168,7 +155,6 @@ class MemoryImageEnvRunner(BaseImageRunner):
         # allocate data
         all_video_paths = [None] * n_inits
         all_rewards = [None] * n_inits
-        all_prediction_times = []
 
         for chunk_idx in range(n_chunks):
             start = chunk_idx * n_envs
@@ -192,17 +178,12 @@ class MemoryImageEnvRunner(BaseImageRunner):
             past_action = None
             policy.reset()
 
-            pbar = tqdm.tqdm(total=self.max_steps, desc=f"Eval MemoryImageRunner {chunk_idx+1}/{n_chunks}", 
+            pbar = tqdm.tqdm(total=self.max_steps, desc=f"Eval PushtImageRunner {chunk_idx+1}/{n_chunks}", 
                 leave=False, mininterval=self.tqdm_interval_sec)
             done = False
             while not done:
-                Do = obs.shape[-1]
                 # create obs dict
-                np_obs_dict = {
-                    # handle n_latency_steps by discarding the last n_latency_steps
-                    'obs': obs[...,:self.n_obs_steps,:Do].astype(np.float32),
-                    'obs_mask': obs[...,:self.n_obs_steps,Do:] > 0.5
-                }
+                np_obs_dict = dict(obs)
                 if self.past_action and (past_action is not None):
                     # TODO: not tested
                     np_obs_dict['past_action'] = past_action[
@@ -212,20 +193,16 @@ class MemoryImageEnvRunner(BaseImageRunner):
                 obs_dict = dict_apply(np_obs_dict, 
                     lambda x: torch.from_numpy(x).to(
                         device=device))
+
                 # run policy
                 with torch.no_grad():
-                    start_predict = time.time()
                     action_dict = policy.predict_action(obs_dict)
-                    end_predict = time.time()
-                    all_prediction_times.append(end_predict - start_predict)
-                
+
                 # device_transfer
                 np_action_dict = dict_apply(action_dict,
                     lambda x: x.detach().to('cpu').numpy())
 
-                # handle latency_steps, we discard the first n_latency_steps actions
-                # to simulate latency
-                action = np_action_dict['action'][:,self.n_latency_steps:]
+                action = np_action_dict['action']
 
                 # step env
                 obs, reward, done, info = env.step(action)
@@ -236,11 +213,10 @@ class MemoryImageEnvRunner(BaseImageRunner):
                 pbar.update(action.shape[1])
             pbar.close()
 
-            # collect data for this round
             all_video_paths[this_global_slice] = env.render()[this_local_slice]
             all_rewards[this_global_slice] = env.call('get_attr', 'reward')[this_local_slice]
-
-        # import pdb; pdb.set_trace()
+        # clear out video buffer
+        _ = env.reset()
 
         # log
         max_rewards = collections.defaultdict(list)
@@ -271,8 +247,5 @@ class MemoryImageEnvRunner(BaseImageRunner):
             name = prefix+'mean_score'
             value = np.mean(value)
             log_data[name] = value
-
-        # Log avg. prediction time
-        log_data['mean_prediction_time'] = np.mean(all_prediction_times)
 
         return log_data

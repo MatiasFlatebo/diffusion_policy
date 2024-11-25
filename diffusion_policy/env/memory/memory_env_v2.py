@@ -35,7 +35,7 @@ class MemoryEnv_v2(gym.Env):
             render_action=True,
             render_size=96,
             reset_to_state=None,
-            goal_masking_timestep=20,
+            goal_masking_timestep=10,
             include_goal_obs=True
         ):
         self._seed = None
