@@ -1,7 +1,7 @@
 import numpy as np
 import click
 from diffusion_policy.common.replay_buffer import ReplayBuffer
-from diffusion_policy.env.memory.memory_env_v2 import MemoryEnv_v2
+from diffusion_policy.env.memory.memory_env_v3 import MemoryEnv_v3
 import pygame
 
 @click.command()
@@ -12,7 +12,7 @@ def main(output, render_size, control_hz):
     """
     Collect demonstration for the Push-T task.
     
-    Usage: python demo_pusht.py -o data/pusht_demo.zarr
+    Usage: python demo_memory.py -o data/memory_demo.zarr
     
     This script is compatible with both Linux and MacOS.
     Hover mouse close to the blue circle to start.
@@ -27,7 +27,7 @@ def main(output, render_size, control_hz):
     replay_buffer = ReplayBuffer.create_from_path(output, mode='a')
 
     # create PushT env with keypoints
-    env = MemoryEnv_v2(render_size=render_size, render_action=False)
+    env = MemoryEnv_v3(render_size=render_size, render_action=False)
     agent = env.teleop_agent()
     clock = pygame.time.Clock()
     
