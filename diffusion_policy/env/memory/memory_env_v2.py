@@ -49,11 +49,11 @@ class MemoryEnv_v2(gym.Env):
         # legcay set_state for data compatibility
         self.legacy = legacy
 
-        # agent_pos, block_pos, block_angle
+        # agent_pos, goal_pos
         self.observation_space = spaces.Box(
-            low=np.array([0,0,0,0], dtype=np.float64),
-            high=np.array([ws,ws,ws,ws], dtype=np.float64),
-            shape=(4,),
+            low=np.array([0,0,0,0,0], dtype=np.float64),
+            high=np.array([ws,ws,ws,ws,1], dtype=np.float64),
+            shape=(5,),
             dtype=np.float64
         )
 
@@ -154,13 +154,17 @@ class MemoryEnv_v2(gym.Env):
 
     def _get_obs(self):
         if self.hide_goal == False:
-            obs = np.array(
-                tuple(self.agent.position) \
-                + tuple(self.goal_position))
+            obs = np.concatenate([
+                self.agent.position,
+                self.goal_position,
+                [1]
+                ])
         else:
-            obs = np.array(
-                tuple(self.agent.position) \
-                + tuple([0,0]))
+            obs = np.concatenate([
+                self.agent.position,
+                [0, 0],
+                [0]
+                ])
         return obs
 
     def _get_goal_pose_body(self, pose):

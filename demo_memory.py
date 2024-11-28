@@ -84,7 +84,7 @@ def main(output, render_size, control_hz):
             if not act is None:
                 # teleop started
                 # state dim 2+3
-                state = np.concatenate([info['pos_agent'], info['goal_pos']])
+                state = obs # Endret fra state = np.concatenate([info['pos_agent'], info['goal_pos']])
                 # discard unused information such as visibility mask and agent pos
                 # for compatibility
                 data = {
