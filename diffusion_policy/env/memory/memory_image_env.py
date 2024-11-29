@@ -1,9 +1,9 @@
 from gym import spaces
-from diffusion_policy.env.memory.memory_env_v2 import MemoryEnv_v2
+from diffusion_policy.env.memory.memory_env_v3 import MemoryEnv_v3
 import numpy as np
 import cv2
 
-class MemoryImageEnv(MemoryEnv_v2):
+class MemoryImageEnv(MemoryEnv_v3):
     metadata = {"render.modes": ["rgb_array"], "video.frames_per_second": 10}
 
     def __init__(self,
@@ -54,7 +54,6 @@ class MemoryImageEnv(MemoryEnv_v2):
                 color=(255,0,0), markerType=cv2.MARKER_CROSS,
                 markerSize=marker_size, thickness=thickness)
         self.render_cache = img
-
         return obs
 
     def render(self, mode):

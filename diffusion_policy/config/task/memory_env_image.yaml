@@ -14,7 +14,7 @@ shape_meta: &shape_meta
     shape: [2]
 
 env_runner:
-  _target_: diffusion_policy.env_runner.memory_env_v2_image_runner.MemoryImageEnvRunner
+  _target_: diffusion_policy.env_runner.memory_env_image_runner.MemoryImageEnvRunner
   n_train: 6
   n_train_vis: 2
   train_start_seed: 0
@@ -31,7 +31,7 @@ env_runner:
 
 dataset:
   _target_: diffusion_policy.dataset.memory_image_dataset.MemoryImageDataset
-  zarr_path: data/memory/memory_v2.zarr
+  zarr_path: data/memory/memory_v5.zarr
   horizon: ${horizon}
   pad_before: ${eval:'${n_obs_steps}-1'}
   pad_after: ${eval:'${n_action_steps}-1'}

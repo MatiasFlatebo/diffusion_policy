@@ -7,7 +7,7 @@ import tqdm
 import dill
 import math
 import wandb.sdk.data_types.video as wv
-from diffusion_policy.env.memory.memory_env_v2 import MemoryEnv_v2
+from diffusion_policy.env.memory.memory_image_env import MemoryImageEnv
 from diffusion_policy.gym_util.async_vector_env import AsyncVectorEnv
 # from diffusion_policy.gym_util.sync_vector_env import SyncVectorEnv
 from diffusion_policy.gym_util.multistep_wrapper import MultiStepWrapper
@@ -45,7 +45,7 @@ class MemoryImageEnvRunner(BaseImageRunner):
         def env_fn():
             return MultiStepWrapper(
                 VideoRecordingWrapper(
-                    MemoryEnv_v2(
+                    MemoryImageEnv(
                         legacy=legacy_test,
                         render_size=render_size
                     ),
@@ -178,7 +178,7 @@ class MemoryImageEnvRunner(BaseImageRunner):
             past_action = None
             policy.reset()
 
-            pbar = tqdm.tqdm(total=self.max_steps, desc=f"Eval PushtImageRunner {chunk_idx+1}/{n_chunks}", 
+            pbar = tqdm.tqdm(total=self.max_steps, desc=f"Eval MemoryImageRunner {chunk_idx+1}/{n_chunks}", 
                 leave=False, mininterval=self.tqdm_interval_sec)
             done = False
             while not done:

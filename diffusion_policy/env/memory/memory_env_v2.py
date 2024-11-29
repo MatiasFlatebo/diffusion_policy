@@ -51,9 +51,9 @@ class MemoryEnv_v2(gym.Env):
 
         # agent_pos, goal_pos
         self.observation_space = spaces.Box(
-            low=np.array([0,0,0,0,0], dtype=np.float64),
-            high=np.array([ws,ws,ws,ws,1], dtype=np.float64),
-            shape=(5,),
+            low=np.array([0,0,0,0], dtype=np.float64),
+            high=np.array([ws,ws,ws,ws], dtype=np.float64),
+            shape=(4,),
             dtype=np.float64
         )
 
@@ -156,14 +156,12 @@ class MemoryEnv_v2(gym.Env):
         if self.hide_goal == False:
             obs = np.concatenate([
                 self.agent.position,
-                self.goal_position,
-                [1]
+                self.goal_position
                 ])
         else:
             obs = np.concatenate([
                 self.agent.position,
-                [0, 0],
-                [0]
+                [0, 0]
                 ])
         return obs
 
