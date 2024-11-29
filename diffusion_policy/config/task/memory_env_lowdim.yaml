@@ -1,10 +1,10 @@
 name: memory_lowdim
 
-obs_dim: 5
+obs_dim: 4
 action_dim: 2
 
 env_runner:
-  _target_: diffusion_policy.env_runner.memory_env_runner_v3.MemoryEnvRunner_v3
+  _target_: diffusion_policy.env_runner.memory_env_runner.MemoryEnvRunner
   keypoint_visible_rate: ${keypoint_visible_rate}
   n_train: 6
   n_train_vis: 2
@@ -23,7 +23,7 @@ env_runner:
 
 dataset:
   _target_: diffusion_policy.dataset.memory_env_dataset.MemoryLowdimDataset
-  zarr_path: data/memory/memory_v5.zarr
+  zarr_path: data/memory/memory_v6.zarr
   horizon: ${horizon}
   pad_before: ${eval:'${n_obs_steps}-1+${n_latency_steps}'}
   pad_after: ${eval:'${n_action_steps}-1'}
