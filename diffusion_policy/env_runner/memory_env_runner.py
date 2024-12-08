@@ -36,10 +36,10 @@ class MemoryEnvRunner(BaseLowdimRunner):
             fps=10,
             crf=22,
             past_action=False,
-            include_goal_obs=True,
-            goal_masking_timestep=5,
             tqdm_interval_sec=5.0,
-            n_envs=None
+            n_envs=None,
+            goal_masking_timestep=20,
+            include_goal_flag=False
         ):
         super().__init__(output_dir)
 
@@ -60,8 +60,8 @@ class MemoryEnvRunner(BaseLowdimRunner):
                 VideoRecordingWrapper(
                     MemoryEnv_v4(
                         legacy=legacy_test,
-                        include_goal_obs=include_goal_obs,
-                        goal_masking_timestep=goal_masking_timestep
+                        goal_masking_timestep=goal_masking_timestep,
+                        include_goal_flag=include_goal_flag
                     ),
                     video_recoder=VideoRecorder.create_h264(
                         fps=fps,
@@ -155,6 +155,8 @@ class MemoryEnvRunner(BaseLowdimRunner):
         self.past_action = past_action
         self.max_steps = max_steps
         self.tqdm_interval_sec = tqdm_interval_sec
+        self.goal_masking_timestep = goal_masking_timestep
+        self.include_goal_flag = include_goal_flag
     
     def run(self, policy: BaseLowdimPolicy):
         device = policy.device

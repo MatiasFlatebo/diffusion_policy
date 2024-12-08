@@ -14,7 +14,7 @@ shape_meta: &shape_meta
     shape: [2]
 
 env_runner:
-  _target_: diffusion_policy.env_runner.memory_env_image_runner.MemoryImageEnvRunner
+  _target_: diffusion_policy.env_runner.memory_env_image_runner.MemoryImageEnvRunner # Env velges i memory_image_env.py
   n_train: 6
   n_train_vis: 2
   train_start_seed: 0
@@ -28,10 +28,12 @@ env_runner:
   fps: 10
   past_action: ${past_action_visible}
   n_envs: null
+  goal_masking_timestep: 15 # Eneste parameter jeg endrer egentlig for image
+  include_goal_flag: False # Den gir ikke så mye mening i image
 
 dataset:
   _target_: diffusion_policy.dataset.memory_image_dataset.MemoryImageDataset
-  zarr_path: data/memory/memory_v5.zarr
+  zarr_path: data/memory/memory_v12.zarr # Må endres til å passe med hvilket env som kjøres
   horizon: ${horizon}
   pad_before: ${eval:'${n_obs_steps}-1'}
   pad_after: ${eval:'${n_action_steps}-1'}

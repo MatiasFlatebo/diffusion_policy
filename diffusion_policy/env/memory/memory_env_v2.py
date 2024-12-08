@@ -35,8 +35,8 @@ class MemoryEnv_v2(gym.Env):
             render_action=True,
             render_size=96,
             reset_to_state=None,
-            goal_masking_timestep=10,
-            include_goal_obs=True
+            goal_masking_timestep=20,
+            include_goal_flag=False
         ):
         self._seed = None
         self.seed()
@@ -49,13 +49,21 @@ class MemoryEnv_v2(gym.Env):
         # legcay set_state for data compatibility
         self.legacy = legacy
 
-        # agent_pos, goal_pos
-        self.observation_space = spaces.Box(
-            low=np.array([0,0,0,0], dtype=np.float64),
-            high=np.array([ws,ws,ws,ws], dtype=np.float64),
-            shape=(4,),
-            dtype=np.float64
-        )
+        # agent_pos, block_pos, block_angle
+        if include_goal_flag:
+            self.observation_space = spaces.Box(
+                low=np.array([0,0,0,0,0], dtype=np.float64),
+                high=np.array([ws,ws,ws,ws,1], dtype=np.float64),
+                shape=(5,),
+                dtype=np.float64
+            )
+        else:
+            self.observation_space = spaces.Box(
+                low=np.array([0,0,0,0], dtype=np.float64),
+                high=np.array([ws,ws,ws,ws], dtype=np.float64),
+                shape=(4,),
+                dtype=np.float64
+            )
 
         # positional goal for agent
         self.action_space = spaces.Box(
@@ -64,7 +72,6 @@ class MemoryEnv_v2(gym.Env):
             shape=(2,),
             dtype=np.float64
         )
-
         self.block_cog = block_cog
         self.damping = damping
         self.render_action = render_action
@@ -85,7 +92,7 @@ class MemoryEnv_v2(gym.Env):
         self.render_buffer = None
         self.latest_action = None
         self.reset_to_state = reset_to_state
-        self.include_goal_obs = include_goal_obs
+        self.include_goal_flag = include_goal_flag
         self.goal_masking_timestep = goal_masking_timestep
         self.possible_goal_poses = np.array([[400,50], [112,50]])
     
@@ -153,16 +160,28 @@ class MemoryEnv_v2(gym.Env):
         return TeleopAgent(act)
 
     def _get_obs(self):
-        if self.hide_goal == False:
-            obs = np.concatenate([
-                self.agent.position,
-                self.goal_position
-                ])
+        if self.include_goal_flag:
+            if self.hide_goal == False:
+                obs = np.concatenate([
+                    self.agent.position,
+                    self.goal_position,
+                    [1]
+                    ])
+            else:
+                obs = np.concatenate([
+                    self.agent.position,
+                    [0, 0],
+                    [0]
+                    ])
         else:
-            obs = np.concatenate([
-                self.agent.position,
-                [0, 0]
-                ])
+            if self.hide_goal == False:
+                obs = np.concatenate([
+                    self.agent.position,
+                    self.goal_position])
+            else:
+                obs = np.concatenate([
+                    self.agent.position,
+                    [0, 0]])
         return obs
 
     def _get_goal_pose_body(self, pose):

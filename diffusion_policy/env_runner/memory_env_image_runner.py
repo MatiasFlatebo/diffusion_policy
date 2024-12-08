@@ -35,7 +35,9 @@ class MemoryImageEnvRunner(BaseImageRunner):
             render_size=96,
             past_action=False,
             tqdm_interval_sec=5.0,
-            n_envs=None
+            n_envs=None,
+            goal_masking_timestep=20,
+            include_goal_flag=False
         ):
         super().__init__(output_dir)
         if n_envs is None:
@@ -47,7 +49,9 @@ class MemoryImageEnvRunner(BaseImageRunner):
                 VideoRecordingWrapper(
                     MemoryImageEnv(
                         legacy=legacy_test,
-                        render_size=render_size
+                        render_size=render_size,
+                        goal_masking_timestep=goal_masking_timestep,
+                        include_goal_flag=include_goal_flag
                     ),
                     video_recoder=VideoRecorder.create_h264(
                         fps=fps,
@@ -141,6 +145,8 @@ class MemoryImageEnvRunner(BaseImageRunner):
         self.past_action = past_action
         self.max_steps = max_steps
         self.tqdm_interval_sec = tqdm_interval_sec
+        self.goal_masking_timestep = goal_masking_timestep
+        self.include_goal_flag = include_goal_flag
     
     def run(self, policy: BaseImagePolicy):
         device = policy.device
