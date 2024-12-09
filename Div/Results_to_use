@@ -1,0 +1,64 @@
+Results to use:
+
+
+RQ1:
+Sammenligning av resultater fra env 2 og env 4. Fra transformer og unet, både 15 og 20 gmts. 
+env 2 gmts=15 - datasett 15
+env 2 gmts=20 - datasett 11
+env 4 gmts=15 - datasett 9
+env 4 gmts=20 - datasett 16
+"Vise env 3 og hvorfor den får så hør score der. Den bare følger demonstrasjoner, men har ikke noe minne. Lage dynamiske mål på den og den sliter nok."
+
+
+
+RQ2:
+
+Vil vise task performance og robusthet ved goal flag.
+Vil optimalt ha 5 kjøringer med og uten goal flag og for hver arkitektur og alle bruker samme dataset. Totalt 40. Dataset v11 er env2 med flag goal og gmts=20. Vil også bruke dataset
+
+Transformer:
+gmts=20
+- Run 45- (6.12) uten goal flag. Virker som det blir bra test score på alle der også... Demonstrasjoner har mye å si...
+- Run 32-36 (3.12) med goal flag. Veldig god test score på alle.
+
+gmts=10
+- Run
+- Run
+
+UNet:
+gmts=20
+- Run 45- (6.12) uten goal flag. Virker som det blir bra test score på alle der også... Demonstrasjoner har mye å si...
+- Run 32-36 (3.12) med goal flag. Veldig god test score på alle.
+
+gmts=15
+- Run
+- Run
+
+
+
+
+RQ3:
+Sammenligne resultater for alle kjøringer av env2/4, med og uten goal flag, ulik gms og image/lowdim
+
+Image:
+env 2, gmts=15 - datasett 12
+env 2, gmts=20 - datasett 10
+env 4, gmts=15 - datasett 8
+env 4, gmts=20 - datasett 13
+UNet:
+Env 2
+gmts 15 - peak 0.84
+gmts 20 - peak 0.91
+
+Env 4
+gmts 15 - peak 0.59
+gmts 20 - peak 0.58
+
+Transformer:
+Env 2
+gmts 15 - peak 0.62
+gmts 20 - peak 0.66
+
+Env 4
+gmts 15 - peak 0.44
+gmts 20 - peak 0.

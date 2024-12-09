@@ -1,0 +1,36 @@
+Memory env 1:
+Det første jeg prøvde. Lagd med Aksel, kortere vegger enn v2. Ga gode resultater fordi den klarte å komme seg til mål før målet ble borte. 0.96 accuracy eller noe sånt. Lagde 100 demonstrasjoner der jeg beveget musepekeren kjapt.
+I wand DB: kjøring 2024.11.04-19.42.33_train_diffusion_transformer_lowdim_memory_lowdim
+
+Memory env 2:
+Første modifikasjon. Lagde lengre vegger for at man skulle bevege seg lengre. Lagde demoer i memory_v2 ved å være litt treigere. Ga dårlige resultater, typ 0.0 i score. Med en gang målområdet ble borte klikket modellen. Prøvde å øke observerisonhoriosonten med 2, 4, 8 og 16 n_obs_steps. tilsvarende rekkefølge i wand DB. Ble ikke noe bedre. Også kjørt med transformer low dim modell.
+
+Memory env 3:
+Siden transformer modell fikk 0,99 med goal flag vil jeg teste en mer komplisert modell for å se om den husker like bra. Fire målområder. Fire L-er fra senter. 2 veier til hvert mål.
+
+Memory env 4:
+Vil sjekke om modellene klarer å "huske" selv om starten er helt identisk. Lager derfor en variant av v2 men med smalere gang slik at starten blir mest mulig lik og enda kortere mål synlighet. Mål også flyttet lengre ut for å få enda lengre veg. Starter også lengre nede.
+
+Data:
+memory/
+memory_1.zarr - Første demoer knyttet til første env
+memory_v2.zarr - Demoer knyttet til env 2 goal masking step = 20
+memory_v3.zarr - Demoer knyttet til env 2 med goal pos = 10 (et sekund)
+memory_v4.zarr - Demoer knyttet til env 2 med goal flag [T,5] gmts=10
+memory_v5.zarr - Demoer knyttet til env 3
+memory_v6.zarr - Demoer knyttet til env 4 uten goal flag. Goal masking timestep = 5
+memory_v7.zarr - Demoer knyttet til env 4 med goal flag. Goal masking timestep = 5
+memory_v8.zarr - Demoer knyttet til env 4 uten goal flag. Goal masking timestep = 15
+memory_v9.zarr - Demoer knyttet til env 4 med goal flag. Goal masking timestep = 15
+memory_v10.zarr - Demoer knyttet til env 2 uten goal flag. Goal masking timestep = 20
+memory_v11.zarr - Demoer knyttet til env 2 med goal flag. goal masking timestep = 20
+memory_v12.zarr - Demoer knyttet til env 2 uten goal flag. goal masking timestep = 15
+memory_v13.zarr - Demoer knyttet til env 4 uten goal flag. Goal masking timestep = 20
+memory_v14.zarr - Demoer knyttet til env 2 med flag goal. gmts=10
+memory_v15.zarr - Demoer knyttet til env 2 med flag goal. gmts=15
+memory_v16.zarr - Demoer knyttet til env 4 med flag goal. gmts=20
+
+Først prøvde en med Unet og hold det andre likt. 2024.11.19-14.17.25_train_diffusion_unet_lowdim_memory_lowdim
+
+Neste forsøk økte jeg til n_obs_steps til 8 fra 2. 
+

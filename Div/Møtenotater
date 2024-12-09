@@ -1,0 +1,160 @@
+WandB
+Run 1 Env 1 
+13.11
+Run 2 Env 2
+Run 3 Env 2 n_obs_steps = 4
+Run 4 Env 2 n_obs_steps = 8
+Run 5 Env 2 n_obs_steps = 16
+
+19.11
+Run 6 Env 2 Unet. Går alltid til venstre
+Run 7 Env 2 Unet n_obs_steps= 8. Nesten lik test mean score men er bedre i tidligere epochs < 200. Men på 0,02 nivå. 
+
+20.11
+Run 8 Env 2 med nytt datasett. Halvert tid synlig mål (10). Transformer. Ble ikke bedre
+
+Run 9 Env 2 med nytt datasett. Halvert tis synlig mål. Unet. Sammenlignet med Unet 20 gms ingen synlig forbedring og samme test mean score
+
+28.11
+Run 10 (2024.11.28-13.18.34_train_diffusion_unet_lowdim_memory_lowdim). Kjører dataset_v3 og uten mål. Test mean_score 0.59. Hadde forventet høyere score. En del er all over the place
+
+Run 11 Kjører dataset_v4 som har med goal_flag. Unet. Håp om at nettverket lærer å vite at [0,0] ikke er der målet er, men en placeholder. Sender derfor med et flag som er 1 når målet vises og 0 når det ikke vises. test mean score 0.73
+
+Run 12 Dataset_v4 med goal-flag på transformer. mean test_score 0.99. Klarer basicly alt. Beveger seg veldig raskt. Tror det kan ha noe med at demonstrasjonene var litt raske. 
+
+Run 13 Dataset_v5 med goal-flag og transformer. mean test_score 0.98 men går gjennom mange vegger
+
+Run 14 Dataset_v5 med goal-flag og unet. mean test_score 0.90
+
+Run 15 Første image run! Transformer og env v2. mean test score 0.719. Uten flag goal!!!
+
+29.11
+Run 16 Dataset v6 og env 4. Uten goal flag. Transformer nettverk. test mean score 0.56. Alltid 0 eller 1 i score. Går ofte til høyre av en eller annen grunn... Veldig rart.
+
+Run 17 Dataset v6 og env 4. Uten goal flag. Unet. Test score 0.68. Ignorerer vegger og går ofte til venstre... Alltid 0 eller 1 i score.
+
+Run 18 Dataset v7 og env 4. Med goal flag. Transformer. test mean score 0.46. Alltid 1 eller 0. Går begge veier.
+
+Run 19 Dataset v7 og env 4. Med goal flag. Unet. test mean score 0.44. Alltid 1 eller 0. Går til venstre ser det ut som.
+
+Run 20 Dataset v8 og env 4. Uten flag goal. Trnasformer. test mean score 0.56. Veldig forventet og deilig resultat. Enten 1 eller 0 så å si.
+
+Run 21 Dataset v8 og env 4. Uten flag goal. Unet. test mean score 0.56. Alltid 0 eller 1.
+
+30.11
+Run 22 Dataset v9 og env 4. Med flag goal. Transformer. test mean score 0.39. Ofte 0 eller 1.
+
+Run 23 Dataset v9 og env 4. Med flag goal. Unet. test mean score 0.46
+
+03.12
+Run 24 Dataset v10 og env2. Uten flag goal. Trnasformer. Kjøres for å sjekke om gms har noe å si hvorfor transformer klarer env 4 og ikke env 2. test mean score 0.956. Skjønner ingenting... Glemte å endre gms så den var fortsatt 20... Skulle gitt samme resultater som run 2. Eneste forskjellen er demonstrasjonene.
+
+Run 25 Dataset 2 og env 2 for å sjekke om resultatene blir det samme som run 2. Hvis det ikke blir det er envet endret. Får nå samme resultater. Alt avhengig av demonstrasjonene.
+
+Run 26-31 Dataset 2 og env 2 for å sjekke om det er demonstrasjonene som gir resultatet som vises. Altså at den klikker når målet er borte. Kjøres 5 ganger dor å se om det kun er et lokalt minimum. Går ut av lokalt minimum 1 av 5 ganger.
+
+Run 32-36 Dataset 11 og env 2 for å sjekke om goal flag gjør at lokalt minimum redusres. Eneste forskjell fra runnene over er at jeg la til goal flag og lagde nye demonstrasjoner (dataset 11).
+
+Run 37 Datasett 10 og env v4. Image transformer. Veldig dårlig test mean score, men ser bra ut på video og det er fordi datasett 10 er ment for env 2... Så den går aldri helt til målområdet... Gøy å se da at treningen går etter demonstrasjonene.
+
+Run 38-40 Dataset 10 og env 2. Image transformer.
+ - 38: Mean test score 0.66.
+ - 39: 0.56
+ - 40: 0.60
+
+04.12
+Run 41 Sjekker om run 24 var en outlier. Datasett 10 og env 2. transformer, uten goal flag og gmt=20. Seed 43. Test mean score 0.99
+
+Run 42 Sjekker om run 24 var en outlier. Datasett 10 og env 2. transformer, uten goal flag og gmt=20. Seed 44. Test mean score 0.98
+
+Run 43 Sjekker om run 24 var en outlier. Datasett 10 og env 2. transformer, uten goal flag og gmt=20. Seed 45. Test mean score 0.99
+
+Run 44 Sjekker om run 24 var en outlier. Datasett 10 og env 2. transformer, uten goal flag og gmt=20. Seed 46. Test mean score 0.97
+
+06.12
+Run 45 Env 2 dataset 11 uten flag goal. gmts=20 Bra score
+
+Run 46 Env 2 datasat 11 uten flag goal. gmts=20 Bra score. Seed=43. Avbrutt for å teste noe annet. Skal kanskje ikke være med i resultat
+
+Run 47 Env 2 dataset 4 uten flag goal. gmts=10 Transformer.  Full score. Kommer i mål før målet forsvinner. 
+
+Run 48 Env 2 og dataset 14. Uten flag goal, transformer, gmts=10. score 0.70 Kjøre på nytt, feil gmts i envet
+
+Run 49 env 2 dataset 14. med goal flag, transformer, gmts=10. score 0.58
+
+Run 50 Env 2 og dataset 14. Uten flag goal, transformer, gmts=10. score 0.54
+
+Run 51 Env 2 og dataset 14. Uten flag goal, transformer, gmts=10. Seed:43 score 0.65
+
+Run 52 env 2 dataset 14. med goal flag, transformer, gmts=10. Seed 43. score 0.62
+
+Run 53 env 2 dataset 14. uten flag goal, UNet, gmts=10. Seed42 score 0.73
+
+Run 54 env 2 dataset 14. med flag goal, UNet, gmts=10 Seed 42 score 0.73. peak 0.82
+
+Run 55 env 2 dataset 12. Image, transformer gmts = 15. Score 0.62
+
+7.12
+56-75 transformer
+Run 56-60 Env 2 dataset 15 uten goal flag. gmts=15
+- Scores: 0.99, 0.94, 0.98, 0.98, 0.96
+
+Run 61-65 Env 2 dataset 11 uten goal flag. gmts=20
+- Scores: 0.94, 0.99, 0.98, 0,95, 0.94
+
+Run 66-70 Env 4 dataset 9 uten goal flag. gmts=15
+- Scores: 0.38, 0.56, 0.52, 0.40, 0.48
+
+Run 71-75 Env 4 dataset 16 uten flag goal. gmts=20
+- Scores: 0.60, 0.50, 0.56, 0.52, 0.48
+
+8.12
+UNet
+Run 76-78 Env 2 dataset 15 uten goal flag. gmts=15
+- Scores: 0.78, 0.92, 0.86
+
+Run 79, Env 2 dataset 11 uten goal flag. gmts=20
+- Scores: 0.96, 
+
+Run 80 Env 4 datasett 8 image, transformer. gmts=15. Score: 0.44
+
+9.12
+Run 81 Env 4 datasett 13 image, transformer. gmts=20. Score: 0.
+
+
+
+
+Run  Env 4 dataset 9 uten goal flag. gmts=15
+- Scores: 
+
+Run Env 4 dataset 16 uten flag goal. gmts=20
+- Scores: 
+
+
+Møte 25.11:
+Prøve å endre eval til oppe til høyre
+- Da går alle opp til høyre!! mean test score 0,38
+- La også til en i midten og på samme høyde - test score 0,04 Ikke noe å skryte av
+- La også til 0,0 og fikk 0,44 enten klarer den det nesten eller 0 når målområdet er til venstre
+ 
+Prøve å kjøre uten mål!!
+- All over the place. Bare fjernet goal fra obs. Ikke endret noe med reward
+- Hydra sliter med å ta i mot nye parameter til envet. Får det ikke til
+- Score 0.59. Kan gå til begge sider.
+
+Flere checkpoints færre epoker
+- Endret på alle config filene.
+- Kræsjer pga mean test mean score ikke lagres så ofte som 5, 10 eller 20
+
+Få Unet image til å fungere og sende til Aksel
+Prøve med Sigmund sitt nettverk
+Prøve å endre fra 0,0 til oppe i midten
+Undersøke Unet transformer arkitekturene og prøve å forklare resultatene
+
+
+TODO:
+1. Kjøre dataset 10 env 2 flere gnager for å se om den ikke når lokalt minimum.
+
+Spørsmål:
+- Det er greit å fjerne goal flag på den måten jeg gjør i dataset filen?
+
