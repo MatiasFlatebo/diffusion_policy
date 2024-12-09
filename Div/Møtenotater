@@ -113,8 +113,8 @@ UNet
 Run 76-78 Env 2 dataset 15 uten goal flag. gmts=15
 - Scores: 0.78, 0.92, 0.86
 
-Run 79, Env 2 dataset 11 uten goal flag. gmts=20
-- Scores: 0.96, 
+Run 79,82, Env 2 dataset 11 uten goal flag. gmts=20
+- Scores: 0.96, 0.
 
 Run 80 Env 4 datasett 8 image, transformer. gmts=15. Score: 0.44
 
@@ -123,7 +123,7 @@ Run 81 Env 4 datasett 13 image, transformer. gmts=20. Score: 0.
 
 
 
-
+Resten av UNet
 Run  Env 4 dataset 9 uten goal flag. gmts=15
 - Scores: 
 
@@ -157,4 +157,19 @@ TODO:
 
 Spørsmål:
 - Det er greit å fjerne goal flag på den måten jeg gjør i dataset filen?
+- Tanker om appendix A? Ha med eller ikke. Hvor ellers presentere det? I metode eller diskusjon.
+- Linke til mitt repo?
+- RQ1 - Holder det med de resultatene?
+- RQ2 - Det er jo ingen resultater jeg har. Endre eller forklare at det ikke fungerte? Kan skrive hvorfor jeg gjorde det og hvorfor de tikke fungerte. Eller endre til obs horizon.
+- RQ3 - Forklare at det er forventet at transformer gjør det bedre, men ikke gjør det. UNet er mye bedre med image input.
+- Greit med formler i metode delen?
+- Burde jeg forklare wandb?
+- Hva er viktig å ha med i teori delen om diffusion policy?
+- Burde jeg vise env 3? 
 
+
+% vis endring i input. Hypotese om hvorfor goal flag kan gjøre det bedre. motivasjon.
+Alltid går til venstre. Endring på at det ikke er et nytt signal, men prøver å si at det ikke er tilgjengelig mer.
+
+Prøve lengre obs horizon for env 4. 
+Plotte når den mister goal info.

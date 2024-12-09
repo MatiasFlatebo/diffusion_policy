@@ -45,6 +45,7 @@ env 2, gmts=15 - datasett 12
 env 2, gmts=20 - datasett 10
 env 4, gmts=15 - datasett 8
 env 4, gmts=20 - datasett 13
+
 UNet:
 Env 2
 gmts 15 - peak 0.84
@@ -61,4 +62,4 @@ gmts 20 - peak 0.66
 
 Env 4
 gmts 15 - peak 0.44
-gmts 20 - peak 0.
+gmts 20 - peak 0.60
