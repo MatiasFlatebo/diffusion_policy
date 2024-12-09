@@ -4,7 +4,7 @@ obs_dim: 4
 action_dim: 2
 
 env_runner:
-  _target_: diffusion_policy.env_runner.memory_env_runner_v2.MemoryEnvRunner_v2
+  _target_: diffusion_policy.env_runner.memory_env_runner.MemoryEnvRunner
   keypoint_visible_rate: ${keypoint_visible_rate}
   n_train: 6
   n_train_vis: 2
@@ -20,12 +20,12 @@ env_runner:
   fps: 10
   past_action: ${past_action_visible}
   n_envs: null
-  goal_masking_timestep: 20
+  goal_masking_timestep: 60
   include_goal_flag: False
 
 dataset:
   _target_: diffusion_policy.dataset.memory_env_dataset.MemoryLowdimDataset
-  zarr_path: data/memory/memory_v11.zarr
+  zarr_path: data/memory/test60gmts.zarr
   horizon: ${horizon}
   pad_before: ${eval:'${n_obs_steps}-1+${n_latency_steps}'}
   pad_after: ${eval:'${n_action_steps}-1'}

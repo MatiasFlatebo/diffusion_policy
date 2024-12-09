@@ -114,7 +114,7 @@ Run 76-78 Env 2 dataset 15 uten goal flag. gmts=15
 - Scores: 0.78, 0.92, 0.86
 
 Run 79,82, Env 2 dataset 11 uten goal flag. gmts=20
-- Scores: 0.96, 0.
+- Scores: 0.96, 0.93, 0.91
 
 Run 80 Env 4 datasett 8 image, transformer. gmts=15. Score: 0.44
 
@@ -146,14 +146,6 @@ Flere checkpoints færre epoker
 - Endret på alle config filene.
 - Kræsjer pga mean test mean score ikke lagres så ofte som 5, 10 eller 20
 
-Få Unet image til å fungere og sende til Aksel
-Prøve med Sigmund sitt nettverk
-Prøve å endre fra 0,0 til oppe i midten
-Undersøke Unet transformer arkitekturene og prøve å forklare resultatene
-
-
-TODO:
-1. Kjøre dataset 10 env 2 flere gnager for å se om den ikke når lokalt minimum.
 
 Spørsmål:
 - Det er greit å fjerne goal flag på den måten jeg gjør i dataset filen?
@@ -167,7 +159,7 @@ Spørsmål:
 - Hva er viktig å ha med i teori delen om diffusion policy?
 - Burde jeg vise env 3? 
 
-
+Møte 9.12
 % vis endring i input. Hypotese om hvorfor goal flag kan gjøre det bedre. motivasjon.
 Alltid går til venstre. Endring på at det ikke er et nytt signal, men prøver å si at det ikke er tilgjengelig mer.
 
