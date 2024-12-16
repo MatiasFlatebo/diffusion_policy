@@ -1,7 +1,7 @@
 import numpy as np
 import click
 from diffusion_policy.common.replay_buffer import ReplayBuffer
-from diffusion_policy.env.memory.memory_env_v4 import MemoryEnv_v4
+from diffusion_policy.env.memory.memory_env_v2 import MemoryEnv_v2
 import pygame
 
 @click.command()
@@ -27,7 +27,7 @@ def main(output, render_size, control_hz):
     replay_buffer = ReplayBuffer.create_from_path(output, mode='a')
 
     # create PushT env with keypoints
-    env = MemoryEnv_v4(render_size=render_size, render_action=False, goal_masking_timestep=60, include_goal_flag=True)
+    env = MemoryEnv_v2(render_size=render_size, render_action=False, goal_masking_timestep=100, include_goal_flag=True)
     agent = env.teleop_agent()
     clock = pygame.time.Clock()
     
@@ -46,6 +46,14 @@ def main(output, render_size, control_hz):
         info = env._get_info()
         img = env.render(mode='human')
         
+        while True:
+            mouse_position = pygame.mouse.get_pos()
+            agent_position = env.agent.position
+            distance = np.linalg.norm(np.array(mouse_position) - np.array(agent_position))
+            if distance < 30:
+                break
+            pygame.event.pump()
+            
         # loop state
         retry = False
         pause = False

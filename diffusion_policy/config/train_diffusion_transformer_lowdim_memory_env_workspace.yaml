@@ -92,14 +92,14 @@ optimizer:
 
 training:
   device: "cuda:0"
-  seed: 42
+  seed: 44
   debug: False
   resume: True
   # optimization
   lr_scheduler: cosine
   # Transformer needs LR warmup
   lr_warmup_steps: 1000
-  num_epochs: 300
+  num_epochs: 301
   gradient_accumulate_every: 1
   use_ema: True
   # training loop control

@@ -89,13 +89,13 @@ optimizer:
 
 training:
   device: "cuda:0"
-  seed: 44
+  seed: 43
   debug: False
   resume: True
   # optimization
   lr_scheduler: cosine
   lr_warmup_steps: 500
-  num_epochs: 300
+  num_epochs: 302
   gradient_accumulate_every: 1
   use_ema: True
   # training loop control

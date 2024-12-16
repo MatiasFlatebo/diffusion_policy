@@ -113,7 +113,7 @@ UNet
 Run 76-78 Env 2 dataset 15 uten goal flag. gmts=15
 - Scores: 0.78, 0.92, 0.86
 
-Run 79,82, Env 2 dataset 11 uten goal flag. gmts=20
+Run 79,82,83 Env 2 dataset 11 uten goal flag. gmts=20
 - Scores: 0.96, 0.93, 0.91
 
 Run 80 Env 4 datasett 8 image, transformer. gmts=15. Score: 0.44
@@ -121,47 +121,202 @@ Run 80 Env 4 datasett 8 image, transformer. gmts=15. Score: 0.44
 9.12
 Run 81 Env 4 datasett 13 image, transformer. gmts=20. Score: 0.
 
+Run 82 lagt til i forrige dag
+
+Run 83 lagt til i forrige dag
+
+Run 84 test! 60gmts datasett env 4
+
+Run 85 test! dataset env4_30gmts
+
+Run 86 test! dataset env4_30gmts_new. Har lagt til at demos ikke starter med en gang, men når musepeker er ved agenten for å fikse datasett.
+
+Run 87 dataset env4_20gmts. Transformer. n_obs_steps=2. Score: 0.46.
+
+Run 88 dataset env4_20gmts. Transformer. n_obs_steps=16. Score: 0.70.
+
+10.12
+Run 89 dataset env2_20gmts. Transformer. Score:0.91.
+
+Run 90 dataset env4_20gmts. Transformer. n_obs_step=8. Score:0.5
+
+Run 91 dataset env4_20gmts. Transformer. n_obs_step=8 n_action_step=12. Score:0.56 Endret n acrtion steps ikke obs... Flaut
+
+Run 92 dataset env4_20gmts. Transformer. n_obs_step=8 n_action_step=14. Score: 0.64
+
+Run 93 dataset env4_20gmts. Transformer. n_obs_step=8 n_action_step=20. Score: 0.56
+
+Run 94 dataset env4_20gmts. Transformer. n_obs_step=12. Score:0.60
+
+Run 95 dataset env4_20gmts. Transformer. n_obs_step=14. Score:0.62
+
+Run 96 dataset env4_20gmts. Transformer. n_obs_step=18, horizon=18. Score:0.6. peak 0.68
+
+Run 97 dataset env4_20gmts. Transformer. n_obs_step=32, horizon=32. Score: 1.0
+
+Run 98 dataset env4_20gmts. Transformer. n_obs_step=26, horizon=26. Score: 0.9
+
+Run 99 dataset env2_10gmts. Transformer. Score:0.46
+
+Run 100 dataset env2_10gmts. Transformer. n_obs_steps=8. Score:0.62
+
+Run 101 dataset env2_10gmts. UNet. n_obs_steps=16, horizon=16. Score: 1.0
+
+Run 102 dataset env2_10gmts. UNet. n_obs_steps=2, horizon=16. Score: 0.39 (gjennomsnitt på litt under 0.5)
+
+Run 103 dataset env2_20gmts. Unet. n_obs_steps=2, horizon=16. Score:0.85
+
+11.12
+Run 104 dataset env4_20gmts. Transformer. Score:0.50
+
+Run 105 dataset env4_10gmts. Tranformer. Score:0.46
+
+Run 106 dataset env4_10gmts. Transformer. Score:0.46
+
+Run 107 dataset env2_10gmts. UNet. Score:0.5
+
+Run 108 dataset env2_20gmts. UNet. Score:0.85
+
+Run 109 dataset env4_20gmts. Unet. n_obs_steps=12. Score:0.82
+
+Run 110 dataset env4_20gmts. Unet. n_obs_steps=16. Score:0.96
+
+Run 111 dataset env4_20gmts. Unet. n_obs_steps=8. Score:0.54
+
+12.12
+Run 112 dataset env4_20gmts. Unet. n_obs_steps=14. Score:0.84
+
+Run 113 dataset env2_30gmts. Transformer. Score:1.0
+
+Run 114 dataset env2_30gmts. Unet. Score:1.0
+
+Run 115 dataset env4_30gmts. Transformer. Score:0.98
+
+Run 116 dataset env4_30gmts. Unet. Score: 0.92
+
+Run 117 dataset env2_100gmts. Unet. Lowdim. Score: 1.0
+
+Run 118 dataset env2_100gmts. Transformer. Lowdim. Score: 1.0
+
+Run 119 dataset env2_100gmts. Transformer. Image. Score: 1.0 (avbrutt fordi den har convergert)
+
+Run 120 dataset env4_100gmts. Unet. Lowdim. Score: 1.0 (avbrutt fordi den har convergert)
+
+Run 121 dataset env4_100gmts. Transformer. Lowdim. Score: 1.0
+
+13.12
+Run 123 dataset env4_20gmts. Transformer. n_obs_step=24, horizon=24. Score: 0.78. Peak 0.84
+
+Run 124 dataset env4_20gmts. Unet. n_obs_steps=24, horizon=24 Score:1.0
+
+Run 125 dataset env4_20gmts. Unet. n_obs_steps=32, horizon=32 Score: 1.0 
+
+Run 126 dataset env4_20gmts. Unet. n_obs_steps=2. Score:0.42
+
+Run 127 dataset env4_100gmts. Transformer. Image. Score: 1.0
+
+run 128 dataset env4_10gmts. UNet. Score:0.36
+
+14.12
+Run 129 dataset env4_20gmts. Transformer, image. Score: 0.48
+
+Run 130 dataset env2_10gmts. Transformer. Seed: 43. Score: 0.48
+
+Run 131 dataset env2_10gmts. Transformer. Seed: 44. Score: 0.42
+
+Run 132 dataset env2_20gmts. Transformer. Seed: 43. Score: 0.81
+
+Run 133 dataset env2_20gmts. Transformer. Seed: 44. Score: 0.89
+
+Run 134 dataset env2_30gmts. Transformer. Seed: 42. Score: 1.0 
+
+Run 135 dataset env2_30gmts. Transformer. Seed: 43. Score: 1.0
+
+Run 136 dataset env2_30gmts. Transformer. Seed: 44. Score: 1.0
+
+Run 137 dataset env4_10gmts. Transformer. Seed: 43. Score: 0.64
+
+Run 138 dataset env4_10gmts. Transformer. Seed: 44. Score: 0.5
+
+Run 139 dataset env4_20gmts. Transformer. Seed: 43. Score: 0.54
+
+Run 140 dataset env4_20gmts. Transformer. Seed: 44. Score: 0.42
+
+Run 141 dataset env4_30gmts. Transformer. Seed: 43. Score: 0.98
+
+Run 142 dataset env4_30gmts. Transformer. Seed: 44. Score: 0.98
+
+Run 143 dataset env2_10gmts. Unet. Seed: 43. Score: 0.52
+
+Run 144 dataset env2_10gmts. Unet. Seed: 43. Score: 0.52 (Samme seed...)
+
+Run 145 dataset env2_20gmts. Unet. Seed: 43. Score: 0.83
+
+15.12
+Run 146 dataset env2_20gmts. Unet. Seed: 44. Score: 0.78
+
+Run 147 dataset env2_10gmts. Unet. Seed: 44. Score: 0.36
+
+Run 148 dataset env2_30gmts. Unet. Seed:43. Score: 1.0
+
+Run 149 dataset env2_30gmts. Unet. Seed:44. Score: 1.0
+
+Run 150 dataset env4_10gmts. Unet. Seed:43. Score: 0.6
+
+Run 151 dataset env4_10gmts. Unet. Seed:44. Score: 0.54
+
+16.11
+Run 152 dataset env4_10gmts. Transformer, image. Score:0.52
+
+Run 153 dataset env4_20gmts. Unet. Seed:43. Score: 
+
+Run X dataset env4_20gmts. Unet. Seed:44. Score:
+
+Run X dataset env4_30gmts. Unet. Seed:43. Score:
+
+Run X dataset env4_30gmts. Unet. Seed:44. Score:
 
 
-Resten av UNet
-Run  Env 4 dataset 9 uten goal flag. gmts=15
-- Scores: 
+Run X dataset env2_20gmts. Transformer, image. Score:
 
-Run Env 4 dataset 16 uten flag goal. gmts=20
-- Scores: 
+Run X dataset env2_10gmts. Transformer, image. Score:
 
 
-Møte 25.11:
-Prøve å endre eval til oppe til høyre
-- Da går alle opp til høyre!! mean test score 0,38
-- La også til en i midten og på samme høyde - test score 0,04 Ikke noe å skryte av
-- La også til 0,0 og fikk 0,44 enten klarer den det nesten eller 0 når målområdet er til venstre
- 
-Prøve å kjøre uten mål!!
-- All over the place. Bare fjernet goal fra obs. Ikke endret noe med reward
-- Hydra sliter med å ta i mot nye parameter til envet. Får det ikke til
-- Score 0.59. Kan gå til begge sider.
-
-Flere checkpoints færre epoker
-- Endret på alle config filene.
-- Kræsjer pga mean test mean score ikke lagres så ofte som 5, 10 eller 20
 
 
-Spørsmål:
-- Det er greit å fjerne goal flag på den måten jeg gjør i dataset filen?
-- Tanker om appendix A? Ha med eller ikke. Hvor ellers presentere det? I metode eller diskusjon.
-- Linke til mitt repo?
-- RQ1 - Holder det med de resultatene?
-- RQ2 - Det er jo ingen resultater jeg har. Endre eller forklare at det ikke fungerte? Kan skrive hvorfor jeg gjorde det og hvorfor de tikke fungerte. Eller endre til obs horizon.
-- RQ3 - Forklare at det er forventet at transformer gjør det bedre, men ikke gjør det. UNet er mye bedre med image input.
-- Greit med formler i metode delen?
-- Burde jeg forklare wandb?
-- Hva er viktig å ha med i teori delen om diffusion policy?
-- Burde jeg vise env 3? 
 
-Møte 9.12
-% vis endring i input. Hypotese om hvorfor goal flag kan gjøre det bedre. motivasjon.
-Alltid går til venstre. Endring på at det ikke er et nytt signal, men prøver å si at det ikke er tilgjengelig mer.
 
-Prøve lengre obs horizon for env 4. 
-Plotte når den mister goal info.
+
+
+
+RQ2 transformer:
+Run 87 dataset env4_20gmts. Transformer. n_obs_steps=2. Score: 0.46. Runtime:1163 (Mørke grønn/blå)
+Run 90 dataset env4_20gmts. Transformer. n_obs_steps=8. Score:0.5 Runtime: 1319 (grå)
+Run 94 dataset env4_20gmts. Transformer. n_obs_step=12. Score:0.60 Runtime:1555 (grønn)
+Run 95 dataset env4_20gmts. Transformer. n_obs_steps=14. Score:0.62 Runtime:1700 (lilla)
+Run 88 dataset env4_20gmts. Transformer. n_obs_steps=16. Score: 0.70 Runtime:2180 (Beige)
+Run 96 dataset env4_20gmts. Transformer. n_obs_step=18, horizon=18. Score:0.6. peak på 0.68 Runtime:2647
+Run 123 dataset env4_20gmts. Transformer. n_obs_step=24, horizon=24. Score: 0.78. Peak 0.84 Runtime:3612 (rød)
+Run 97 dataset env4_20gmts. Transformer. n_obs_step=32, horizon=32. Score: 1.0 Runtime:3869 (Lyse blå/grønn)
+
+
+RQ2 UNet:
+Run 126 dataset env4_20gmts. Unet. n_obs_steps=2. Score:0.42 Runtime:9233 (rosa)
+Run 111 dataset env4_20gmts. Unet. n_obs_steps=8. Score:0.54. Runtime:10576 (lyseblå)
+Run 109 dataset env4_20gmts. Unet. n_obs_steps=12. Score:0.82. Runtime:11108 (rosa)
+Run 112 dataset env4_20gmts. Unet. n_obs_steps=14. Score:0.84. Runtime:11527 (rosa-lilla)
+Run 110 dataset env4_20gmts. Unet. n_obs_steps=16. Score:0.96. Runtime:13023 (oransje)
+Run 124 dataset env4_20gmts. Unet. n_obs_steps=24, horizon=24 Score:1.0 Runtime:13188 (grønn)
+Run 125 dataset env4_20gmts. Unet. n_obs_steps=32, horizon=32 Score: 1.0 Runtime:14566 (lilla)
+
+
+TODO:
+- Fixe repo og linke til det
+- Fixe image results
+- Fixe Unet results rq1
+- Diskutere rundt mean pred for Unet
+- Skrive discussion rundt RQ3
+- Skrive summary
+- Skrive conclusion
+- Legge til overlays der jeg fjerne 8,16 og 32 states fra starten?
+- Fjerne appendix C

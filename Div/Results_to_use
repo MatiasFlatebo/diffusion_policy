@@ -2,44 +2,73 @@ Results to use:
 
 
 RQ1:
-Sammenligning av resultater fra env 2 og env 4. Fra transformer og unet, både 15 og 20 gmts. 
-env 2 gmts=15 - datasett 15
-env 2 gmts=20 - datasett 11
-env 4 gmts=15 - datasett 9
-env 4 gmts=20 - datasett 16
-"Vise env 3 og hvorfor den får så hør score der. Den bare følger demonstrasjoner, men har ikke noe minne. Lage dynamiske mål på den og den sliter nok."
+Sammenligning av resultater fra env 2 og env 4. Fra transformer og unet, både 10 og 20 gmts. (30 også?) Tre kjøringer per.
 
+Transformer:
+env2_10gmts - 0.46(run99), 0.48(run130), 0.42(run131)
+env2_20gmts - 0.91(run89), 0.81(run132), 0.89(run133)
+env2_30gmts - 1.0(run113), 1.0(run135), 1.0(run136)
+
+env4_10gmts - 0.46(run106), 0.64(run137), 0.5(run138)
+env4_20gmts - 0.46(run87), 0.54(run139), 0.42(run140)
+env4_30gmts - 0.98(run115), 0.98(run141), 0.98(run142)
+
+UNet:
+env2_10gmts - 0.5(run107), 0.52(run143), 0.36(run147)
+env2_20gmts - 0.85(run108), 0.83(run145), 0.78(run146)
+env2_30gmts - 1.0(run114), 1.0(run148), 1.0(run149)
+
+env4_10gmts - 0.36(run128), 0.6(run150), 0.54(run151)
+env4_20gmts - 0.42(run126), 
+env4_30gmts - 0.92(run116)
+
+Må bestemme meg om peak eller siste!!!
 
 
 RQ2:
+Få frem hva som skjer når man øker n_obs_steps. Ta med env4_20gmts transformer og UNet
 
-Vil vise task performance og robusthet ved goal flag.
-Vil optimalt ha 5 kjøringer med og uten goal flag og for hver arkitektur og alle bruker samme dataset. Totalt 40. Dataset v11 er env2 med flag goal og gmts=20. Vil også bruke dataset
+Run 87 dataset env4_20gmts. Transformer. n_obs_steps=2. Score: 0.46
+Run 90 dataset env4_20gmts. Transformer. n_obs_steps=8. Score: 0.5
+Run 94 dataset env4_20gmts. Transformer. n_obs_step=12. Score: 0.60
+Run 95 dataset env4_20gmts. Transformer. n_obs_steps=14. Score: 0.62
+Run 88 dataset env4_20gmts. Transformer. n_obs_steps=16. Score: 0.70
 
-Transformer:
-gmts=20
-- Run 45- (6.12) uten goal flag. Virker som det blir bra test score på alle der også... Demonstrasjoner har mye å si...
-- Run 32-36 (3.12) med goal flag. Veldig god test score på alle.
-
-gmts=10
-- Run
-- Run
-
-UNet:
-gmts=20
-- Run 45- (6.12) uten goal flag. Virker som det blir bra test score på alle der også... Demonstrasjoner har mye å si...
-- Run 32-36 (3.12) med goal flag. Veldig god test score på alle.
-
-gmts=15
-- Run
-- Run
-
+Run 104 dataset env4_20gmts. Unet. n_obs_steps=2. Score: 0.50
+Run 111 dataset env4_20gmts. Unet. n_obs_steps=8. Score: 0.54
+Run 109 dataset env4_20gmts. Unet. n_obs_steps=12. Score: 0.82
+Run 112 dataset env4_20gmts. Unet. n_obs_steps=14. Score: 0.82
+Run 110 dataset env4_20gmts. Unet. n_obs_steps=16. Score: 0.96
 
 
 
 RQ3:
-Sammenligne resultater for alle kjøringer av env2/4, med og uten goal flag, ulik gms og image/lowdim
+Sammenligne resultater for alle kjøringer av env2/4 med ulik n_obs_steps, ulik gmts og image/lowdim.
+Hypotese: Transformer outperformer med lang obs horizont og UNet er bedre med image input.
 
+Image:
+
+UNet:
+Env 2
+gmts 10 - 0.74
+gmts 20 - 0.82
+
+Env 4
+gmts 10 - 0.50
+gmts 20 - 0.46
+
+Transformer:
+Env 2
+gmts 10 - 
+gmts 20 - 
+
+Env 4
+gmts 10 - 0.52
+gmts 20 - 0.48
+
+
+
+(GAMMLE RESULTATER, MEN KAN BRUKES)
 Image:
 env 2, gmts=15 - datasett 12
 env 2, gmts=20 - datasett 10

@@ -28,12 +28,12 @@ env_runner:
   fps: 10
   past_action: ${past_action_visible}
   n_envs: null
-  goal_masking_timestep: 20 # Eneste parameter jeg endrer egentlig for image
+  goal_masking_timestep: 10 # Eneste parameter jeg endrer egentlig for image
   include_goal_flag: False # Den gir ikke så mye mening i image
 
 dataset:
   _target_: diffusion_policy.dataset.memory_image_dataset.MemoryImageDataset
-  zarr_path: data/memory/memory_v13.zarr # Må endres til å passe med hvilket env som kjøres
+  zarr_path: data/memory/env4_10gmts.zarr # Må endres til å passe med hvilket env som kjøres
   horizon: ${horizon}
   pad_before: ${eval:'${n_obs_steps}-1'}
   pad_after: ${eval:'${n_action_steps}-1'}
