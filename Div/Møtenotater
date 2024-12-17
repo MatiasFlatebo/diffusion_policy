@@ -268,20 +268,17 @@ Run 151 dataset env4_10gmts. Unet. Seed:44. Score: 0.54
 16.11
 Run 152 dataset env4_10gmts. Transformer, image. Score:0.52
 
-Run 153 dataset env4_20gmts. Unet. Seed:43. Score: 
+Run 153 dataset env4_20gmts. Unet. Seed:43. Score: 0.58
 
-Run X dataset env4_20gmts. Unet. Seed:44. Score:
+Run 154 dataset env4_20gmts. Unet. Seed:44. Score: 0.46
 
-Run X dataset env4_30gmts. Unet. Seed:43. Score:
+Run 155 dataset env4_30gmts. Unet. Seed:43. Score: 0.96
 
-Run X dataset env4_30gmts. Unet. Seed:44. Score:
+Run 156 dataset env4_30gmts. Unet. Seed:44. Score: 0.96
 
+Run 157 dataset env2_10gmts. Transformer, image. Score:0.34
 
-Run X dataset env2_20gmts. Transformer, image. Score:
-
-Run X dataset env2_10gmts. Transformer, image. Score:
-
-
+Run 158 dataset env2_20gmts. Transformer, image. Score: 0.94
 
 
 
@@ -308,15 +305,3 @@ Run 112 dataset env4_20gmts. Unet. n_obs_steps=14. Score:0.84. Runtime:11527 (ro
 Run 110 dataset env4_20gmts. Unet. n_obs_steps=16. Score:0.96. Runtime:13023 (oransje)
 Run 124 dataset env4_20gmts. Unet. n_obs_steps=24, horizon=24 Score:1.0 Runtime:13188 (grønn)
 Run 125 dataset env4_20gmts. Unet. n_obs_steps=32, horizon=32 Score: 1.0 Runtime:14566 (lilla)
-
-
-TODO:
-- Fixe repo og linke til det
-- Fixe image results
-- Fixe Unet results rq1
-- Diskutere rundt mean pred for Unet
-- Skrive discussion rundt RQ3
-- Skrive summary
-- Skrive conclusion
-- Legge til overlays der jeg fjerne 8,16 og 32 states fra starten?
-- Fjerne appendix C

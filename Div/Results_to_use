@@ -19,8 +19,8 @@ env2_20gmts - 0.85(run108), 0.83(run145), 0.78(run146)
 env2_30gmts - 1.0(run114), 1.0(run148), 1.0(run149)
 
 env4_10gmts - 0.36(run128), 0.6(run150), 0.54(run151)
-env4_20gmts - 0.42(run126), 
-env4_30gmts - 0.92(run116)
+env4_20gmts - 0.42(run126), 0.58(run153), 0.46(run154)
+env4_30gmts - 0.92(run116), 0.96(run155), 0.96(run156)
 
 Må bestemme meg om peak eller siste!!!
 
@@ -59,8 +59,8 @@ gmts 20 - 0.46
 
 Transformer:
 Env 2
-gmts 10 - 
-gmts 20 - 
+gmts 10 - 0.34
+gmts 20 - 0.66
 
 Env 4
 gmts 10 - 0.52
