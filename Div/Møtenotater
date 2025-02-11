@@ -282,10 +282,6 @@ Run 158 dataset env2_20gmts. Transformer, image. Score: 0.94
 
 
 
-
-
-
-
 RQ2 transformer:
 Run 87 dataset env4_20gmts. Transformer. n_obs_steps=2. Score: 0.46. Runtime:1163 (Mørke grønn/blå)
 Run 90 dataset env4_20gmts. Transformer. n_obs_steps=8. Score:0.5 Runtime: 1319 (grå)
@@ -305,3 +301,11 @@ Run 112 dataset env4_20gmts. Unet. n_obs_steps=14. Score:0.84. Runtime:11527 (ro
 Run 110 dataset env4_20gmts. Unet. n_obs_steps=16. Score:0.96. Runtime:13023 (oransje)
 Run 124 dataset env4_20gmts. Unet. n_obs_steps=24, horizon=24 Score:1.0 Runtime:13188 (grønn)
 Run 125 dataset env4_20gmts. Unet. n_obs_steps=32, horizon=32 Score: 1.0 Runtime:14566 (lilla)
+
+
+
+Master
+
+Run 159 dataset env4_20gmts. n_obs_steps=2. TEDi. Score: 0.46 (svinger veldig men ish 0.50) Runtime: 8537
+
+Run 160 dataset env4_20gmts. n_obs_steps=12. TEDi. Score: 0.98. Runtime: 10560
