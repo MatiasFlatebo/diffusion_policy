@@ -20,12 +20,12 @@ env_runner:
   fps: 10
   past_action: ${past_action_visible}
   n_envs: null
-  goal_masking_timestep: 30
+  goal_masking_timestep: 20
   include_goal_flag: False
 
 dataset:
   _target_: diffusion_policy.dataset.memory_env_dataset.MemoryLowdimDataset
-  zarr_path: data/memory/env4_30gmts.zarr
+  zarr_path: data/memory/env4_20gmts.zarr
   horizon: ${horizon}
   pad_before: ${eval:'${n_obs_steps}-1+${n_latency_steps}'}
   pad_after: ${eval:'${n_action_steps}-1'}
