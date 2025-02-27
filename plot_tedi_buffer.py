@@ -148,7 +148,7 @@ class MemoryEnvVisualizeBuffer(MemoryEnv_v4):
 if __name__ == "__main__":
     
     # 1. Load policy
-    checkpoint = "data/outputs/2025.02.05/13.59.10_train_tedi_unet_lowdim_memory_lowdim/checkpoints/epoch=0250-test_mean_score=0.560.ckpt"
+    checkpoint = "data/outputs/2025.02.27/15.20.47_train_tedi_ddim_unet_lowdim_memory_lowdim/checkpoints/epoch=0500-test_mean_score=0.872.ckpt"
     #checkpoint = "data/outputs/2024.12.15/22.18.22_train_diffusion_unet_lowdim_memory_lowdim/checkpoints/epoch=0300-test_mean_score=0.540.ckpt"
 
     vis_policy = TEDiVisualizeBufferPolicy(checkpoint)

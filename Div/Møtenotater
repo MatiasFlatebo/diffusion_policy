@@ -309,3 +309,23 @@ Master
 Run 159 dataset env4_20gmts. n_obs_steps=2. TEDi. Score: 0.46 (svinger veldig men ish 0.50) Runtime: 8537
 
 Run 160 dataset env4_20gmts. n_obs_steps=12. TEDi. Score: 0.98. Runtime: 10560
+
+Run 161 dataset env4_20gmts. tedi ddim. horizon= 16. n_obs_steps=2.  Score (550 epochs):0.68 Score(300 epochs): 0.56
+
+Run 162 dataset env4_20gmts. tedi ddim. horizon= 32. n_obs_steps=2.  Score (550 epochs):0.0 Score(300 epochs): 0.0
+
+Run 163 dataset env4_20gmts. tedi ddim. horizon= 32. n_obs_steps=12.  Score (550 epochs):0.58 Score(300 epochs): 0.21
+
+Run 164 dataset env4_20gmts. tedi ddim. horizon= 32. n_obs_steps=20.  Score (550 epochs):0.87 Score(300 epochs): 0.62
+
+Run 165 dataset env4_20gmts. dp unet ddim. horizon= 16. n_obs_steps=2. action=8.  Score (550 epochs):0.52 Score(300 epochs): 0.48
+
+
+
+
+
+
+TODO:
+- Teste ddim dp med noen av de samme configene
+- Endre action steps?
+- 
