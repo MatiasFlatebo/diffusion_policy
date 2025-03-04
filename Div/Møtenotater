@@ -320,12 +320,20 @@ Run 164 dataset env4_20gmts. tedi ddim. horizon= 32. n_obs_steps=20.  Score (550
 
 Run 165 dataset env4_20gmts. dp unet ddim. horizon= 16. n_obs_steps=2. action=8.  Score (550 epochs):0.52 Score(300 epochs): 0.48
 
+Run 166 dataset env4_20gmts. dp unet ddim. horizon=32, n_obs_steps=12. Score (550 epochs):0.74 Score(300 epochs): 0.61
+
+Run 167 dataset env4_30gmts. tedi. horizon= 16. n_obs_steps=2.  Score (550 epochs):0.96 Score(300 epochs): 0.94
+
+Run 168 dataset env4_30gmts. tedi ddim. horizon= 16. n_obs_steps=2.  Score (550 epochs):0.81 Score(300 epochs): 0.48
+
+Run 169 dataset env4_20gmts. tedi ddim. horizon= 16. n_obs_steps=12.  Score (550 epochs):0.51 Score(300 epochs): 0.79
 
 
 
 
-
-TODO:
-- Teste ddim dp med noen av de samme configene
-- Endre action steps?
-- 
+Hovedpunkter fra resultater:
+- Virker som DDIM ikke konvergerer like lett som DDPM og at DP convergerer raskere enn TEDi. RUn 161 fortsetter å bli bedre etter 300 epochs. Run 167 og 168 viser at ddim trenger mer tid. DP vs TEDi i 163 vs 166.
+- OOD er mer på lengre obs horizon, så det som skjer her er vel ikke OOD på 162?
+- 163 virker som trenger lengre tid på å trene. Konvergerer ikke.
+- Run 164 burde ha gått til 1.0 i score, men kan hende den bare trenger lengre treningstid.
+- Rart at 169 synker i score
