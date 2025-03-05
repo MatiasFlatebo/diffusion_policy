@@ -28,7 +28,7 @@ dataset:
   zarr_path: data/memory/env4_20gmts.zarr
   horizon: ${horizon}
   pad_before: ${eval:'${n_obs_steps}-1+${n_latency_steps}'}
-  pad_after: ${eval:'${n_action_steps}-1'}
+  pad_after: ${eval:'${horizon}-1'}
   seed: 42
   val_ratio: 0.02
   max_train_episodes: 90

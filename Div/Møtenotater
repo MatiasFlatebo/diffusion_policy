@@ -328,12 +328,22 @@ Run 168 dataset env4_30gmts. tedi ddim. horizon= 16. n_obs_steps=2.  Score (550 
 
 Run 169 dataset env4_20gmts. tedi ddim. horizon= 16. n_obs_steps=12.  Score (550 epochs):0.51 Score(300 epochs): 0.79
 
+BYTTET PADDING_AFTER FRA N_OBS_STEPS TIL HORIZON!!!
+
+Run 170 dataset env4_20gmts. tedi ddim. horizon= 16. n_obs_steps=2. action=1. Score:0.67
+
+Run 171 dataset env4_20gmts. dp ddim. horizon= 16. n_obs_steps=2. action=8. Score:0.48
+
+Run 172 dataset env4_20gmts. tedi ddim. horizon=32. n_obs_steps=2. action=1. Score:0.89
+
+Run 173 dataset env4_20gmts. dp ddim. horizon=32. n_obs_steps=2. action=8. Score:0.46
 
 
 
-Hovedpunkter fra resultater:
-- Virker som DDIM ikke konvergerer like lett som DDPM og at DP convergerer raskere enn TEDi. RUn 161 fortsetter å bli bedre etter 300 epochs. Run 167 og 168 viser at ddim trenger mer tid. DP vs TEDi i 163 vs 166.
-- OOD er mer på lengre obs horizon, så det som skjer her er vel ikke OOD på 162?
-- 163 virker som trenger lengre tid på å trene. Konvergerer ikke.
-- Run 164 burde ha gått til 1.0 i score, men kan hende den bare trenger lengre treningstid.
-- Rart at 169 synker i score
+
+Før møtet i morgen:
+- Endre padding-after til horizon/pred horizon
+- Kjøre dp og tedi med 16-2-1 ddim.
+- Tenke på plan videre
+- Tenke på hvordan environmentet kan kompliseres
+- Kjøre image med samme config og lengre horizon for å sjekke OOD?
