@@ -338,12 +338,15 @@ Run 172 dataset env4_20gmts. tedi ddim. horizon=32. n_obs_steps=2. action=1. Sco
 
 Run 173 dataset env4_20gmts. dp ddim. horizon=32. n_obs_steps=2. action=8. Score:0.46
 
+Run 174 dataset env4_20gmts. tedi ddim. horizon=32. n_obs_steps=2. action=4. Score:0.73
+
+Run 175 dataset env4_20gmts. tedi ddim image. horizon=16. n_obs_steps=2. action=1. Score:0.48
+
+Run 176 dataset env4_20gmts. tedi ddim image. horizon=16. n_obs_steps=8. action=1. Score:0.45
 
 
 
 Før møtet i morgen:
-- Endre padding-after til horizon/pred horizon
-- Kjøre dp og tedi med 16-2-1 ddim.
-- Tenke på plan videre
-- Tenke på hvordan environmentet kan kompliseres
-- Kjøre image med samme config og lengre horizon for å sjekke OOD?
+- Lage push T env
+- Lese paper om hukommelse
+- 

@@ -1,9 +1,9 @@
 from gym import spaces
-from diffusion_policy.env.memory.memory_env_v2 import MemoryEnv_v2
+from diffusion_policy.env.memory.memory_env_v4 import MemoryEnv_v4
 import numpy as np
 import cv2
 
-class MemoryImageEnv(MemoryEnv_v2):
+class MemoryImageEnv(MemoryEnv_v4):
     metadata = {"render.modes": ["rgb_array"], "video.frames_per_second": 10}
 
     def __init__(self,

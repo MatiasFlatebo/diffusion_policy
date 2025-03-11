@@ -33,7 +33,7 @@ env_runner:
 
 dataset:
   _target_: diffusion_policy.dataset.memory_image_dataset.MemoryImageDataset
-  zarr_path: data/memory/env2_20gmts.zarr # Må endres til å passe med hvilket env som kjøres
+  zarr_path: data/memory/env4_20gmts.zarr # Må endres til å passe med hvilket env som kjøres
   horizon: ${horizon}
   pad_before: ${eval:'${n_obs_steps}-1'}
   pad_after: ${eval:'${n_action_steps}-1'}
