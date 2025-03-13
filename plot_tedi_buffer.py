@@ -148,8 +148,8 @@ class MemoryEnvVisualizeBuffer(MemoryEnv_v4):
 if __name__ == "__main__":
     
     # 1. Load policy
-    checkpoint = "data/outputs/2025.03.04/13.34.56_train_tedi_ddim_unet_lowdim_memory_lowdim/checkpoints/epoch=0750-test_mean_score=0.735.ckpt"
-    #checkpoint = "data/outputs/2024.12.15/22.18.22_train_diffusion_unet_lowdim_memory_lowdim/checkpoints/epoch=0300-test_mean_score=0.540.ckpt"
+    checkpoint = "data/outputs/2025.03.12/16.53.13_train_tedi_ddim_unet_lowdim_pusht_memory_lowdim/checkpoints/epoch=0350-test_mean_score=0.494.ckpt"
+    #checkpoint = "data/outputs/2025.03.12/13.22.36_train_diffusion_transformer_lowdim_pusht_memory_lowdim/checkpoints/epoch=0800-test_mean_score=0.616.ckpt"
 
     vis_policy = TEDiVisualizeBufferPolicy(checkpoint)
     #vis_policy = DiffusionVisualizeBufferPolicy(checkpoint)
@@ -250,6 +250,6 @@ if __name__ == "__main__":
     print('Done saving to ', video_path)
 
     # Save the 2nd frame as an image
-    img_path = 'visualization/image/vis_tedi.png'
-    cv2.imwrite(img_path, imgs[7])
-    print('Done saving to ', img_path)
+    # img_path = 'visualization/image/vis_tedi.png'
+    # cv2.imwrite(img_path, imgs[7])
+    # print('Done saving to ', img_path)

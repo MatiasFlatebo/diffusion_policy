@@ -34,7 +34,9 @@ class PushTMemoryEnv(gym.Env):
             block_cog=None, damping=None,
             render_action=True,
             render_size=96,
-            reset_to_state=None
+            reset_to_state=None,
+            goal_masking_timestep=20
+
         ):
         self._seed = None
         self.seed()
@@ -83,10 +85,19 @@ class PushTMemoryEnv(gym.Env):
         self.render_buffer = None
         self.latest_action = None
         self.reset_to_state = reset_to_state
+        self.goal_masking_timestep = goal_masking_timestep
+        self.possible_goal_poses = np.array([[256-150,256,-np.pi/4], [256+150,256,np.pi/4]])
+
     
     def reset(self):
         seed = self._seed
         self._setup()
+        rs = np.random.RandomState(seed=seed)
+        goal_idx = rs.randint(0,2)
+        self.chosen_goal_idx = goal_idx
+        self.goal_pose = self.possible_goal_poses[goal_idx]
+        self.time_step = 0
+
         if self.block_cog is not None:
             self.block.center_of_gravity = self.block_cog
         if self.damping is not None:
@@ -135,6 +146,13 @@ class PushTMemoryEnv(gym.Env):
         observation = self._get_obs()
         info = self._get_info()
 
+        # Check if goal_pos info should be hidden
+        if self.time_step == self.goal_masking_timestep:
+            self.hide_goal = True
+
+        # Iterate time-step
+        self.time_step += 1
+
         return observation, reward, done, info
 
     def render(self, mode):
@@ -152,10 +170,15 @@ class PushTMemoryEnv(gym.Env):
         return TeleopAgent(act)
 
     def _get_obs(self):
-        obs = np.array(
-            tuple(self.agent.position) \
-            + tuple(self.block.position) \
-            + (self.block.angle % (2 * np.pi),))
+        if self.hide_goal == False:
+            obs = np.array(
+                tuple(self.agent.position) \
+                + tuple(self.block.position) \
+                + (self.block.angle % (2 * np.pi),))
+        else:
+            obs = np.concatenate([
+                self.agent.position,
+                [0,0,0]])
         return obs
 
     def _get_goal_pose_body(self, pose):
@@ -194,12 +217,30 @@ class PushTMemoryEnv(gym.Env):
 
         draw_options = DrawOptions(canvas)
 
+        for i, g_pose in enumerate(self.possible_goal_poses):
+            goal_body = self._get_goal_pose_body(g_pose)
+
+            # Decide which color
+            if i == self.chosen_goal_idx and self.time_step < self.goal_masking_timestep:
+                color = pygame.Color("LightGreen")  # Chosen goal flashes
+            else:
+                color = pygame.Color("LightGray")   # Otherwise green
+
+            # Draw the "T" shape for each possible goal
+            for shape in self.block.shapes:
+                goal_points = [
+                    pymunk.pygame_util.to_pygame(goal_body.local_to_world(v), draw_options.surface)
+                    for v in shape.get_vertices()
+                ]
+                goal_points.append(goal_points[0])
+                pygame.draw.polygon(canvas, color, goal_points)
+
         # Draw goal pose.
-        goal_body = self._get_goal_pose_body(self.goal_pose)
-        for shape in self.block.shapes:
-            goal_points = [pymunk.pygame_util.to_pygame(goal_body.local_to_world(v), draw_options.surface) for v in shape.get_vertices()]
-            goal_points += [goal_points[0]]
-            pygame.draw.polygon(canvas, self.goal_color, goal_points)
+        # goal_body = self._get_goal_pose_body(self.goal_pose)
+        # for shape in self.block.shapes:
+        #     goal_points = [pymunk.pygame_util.to_pygame(goal_body.local_to_world(v), draw_options.surface) for v in shape.get_vertices()]
+        #     goal_points += [goal_points[0]]
+        #     pygame.draw.polygon(canvas, self.goal_color, goal_points)
 
         # Draw agent and block.
         self.space.debug_draw(draw_options)
@@ -291,6 +332,8 @@ class PushTMemoryEnv(gym.Env):
         self.space.damping = 0
         self.teleop = False
         self.render_buffer = list()
+        self.hide_goal = False
+
         
         # Add walls.
         walls = [

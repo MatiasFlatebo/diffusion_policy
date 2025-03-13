@@ -344,9 +344,10 @@ Run 175 dataset env4_20gmts. tedi ddim image. horizon=16. n_obs_steps=2. action=
 
 Run 176 dataset env4_20gmts. tedi ddim image. horizon=16. n_obs_steps=8. action=1. Score:0.45
 
+Run 177 dataset pusht_memory_v1. transformer pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=8. Score:0.616
 
+Run 178 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=1. Score:0.49
 
-Før møtet i morgen:
-- Lage push T env
-- Lese paper om hukommelse
-- 
+Run 179 dataset pusht_memory_v1. transformer pusht_memory lowdim. horizon= 32. n_obs_steps=16. action=8. Score:0.56 (Overfitter)
+
+Run 180 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=16. action=4. Score:0.51 (Overfitter)

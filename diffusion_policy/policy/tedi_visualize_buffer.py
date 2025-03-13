@@ -73,9 +73,9 @@ class TEDiVisualizeBufferPolicy(TEDiUnetLowdimPolicy):
 
         img_frames = []
         
-        print("Initial buffer_diff_steps:", self.buffer_diff_steps)
-        print("Max diff step at index:", torch.max(self.buffer_diff_steps[:, (To - 1) + Ta - 1]))
-        print(f"Møøøøø", Tp)
+        # print("Initial buffer_diff_steps:", self.buffer_diff_steps)
+        # print("Max diff step at index:", torch.max(self.buffer_diff_steps[:, (To - 1) + Ta - 1]))
+        # print(f"Møøøøø", Tp)
 
         while torch.max(self.buffer_diff_steps[:, (To - 1) + Ta - 1]) != -1:
             self.action_buffer[condition_mask] = condition_data[condition_mask]
