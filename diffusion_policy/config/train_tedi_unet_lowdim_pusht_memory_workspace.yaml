@@ -2,7 +2,7 @@ defaults:
   - _self_
   - task: pusht_memory_lowdim
 
-name: train_tedi_ddim_unet_lowdim
+name: train_tedi_unet_pusht_memory_lowdim
 _target_: diffusion_policy.workspace.train_tedi_lowdim_workspace.TrainTEDiUnetLowdimWorkspace
 
 obs_dim: ${task.obs_dim}
@@ -11,9 +11,9 @@ action_dim: ${task.action_dim}
 task_name: ${task.name}
 exp_name: "default"
 
-horizon: 24
+horizon: 32
 n_obs_steps: 2
-n_action_steps: 2
+n_action_steps: 4
 n_latency_steps: 0
 past_action_visible: False
 keypoint_visible_rate: 1.0
@@ -37,16 +37,13 @@ policy:
     horizon: ${horizon}
   
   noise_scheduler:
-    _target_: diffusion_policy.policy.schedulers.DDIMTEDiScheduler
+    _target_: diffusion_policy.policy.schedulers.DDPMTEDiScheduler
     num_train_timesteps: 100
     beta_start: 0.0001
     beta_end: 0.02
-    # beta_schedule is important
-    # this is the best we found
     beta_schedule: squaredcos_cap_v2
-    clip_sample: True
-    set_alpha_to_one: True
-    steps_offset: 0
+    variance_type: fixed_small # Yilun's paper uses fixed_small_log instead, but easy to cause Nan
+    clip_sample: True # required when predict_epsilon=False
     prediction_type: epsilon # or sample
 
   horizon: ${horizon}
@@ -54,7 +51,7 @@ policy:
   action_dim: ${action_dim}
   n_action_steps: ${eval:'${n_action_steps}+${n_latency_steps}'}
   n_obs_steps: ${n_obs_steps}
-  num_inference_steps: 16
+  num_inference_steps: 100
   obs_as_local_cond: ${obs_as_local_cond}
   obs_as_global_cond: ${obs_as_global_cond}
   pred_action_steps_only: ${pred_action_steps_only}
@@ -107,7 +104,7 @@ training:
   # optimization
   lr_scheduler: cosine
   lr_warmup_steps: 500
-  num_epochs: 600
+  num_epochs: 2000
   gradient_accumulate_every: 1
   use_ema: True
   # training loop control

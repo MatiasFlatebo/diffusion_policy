@@ -351,3 +351,21 @@ Run 178 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 16. n_o
 Run 179 dataset pusht_memory_v1. transformer pusht_memory lowdim. horizon= 32. n_obs_steps=16. action=8. Score:0.56 (Overfitter)
 
 Run 180 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=16. action=4. Score:0.51 (Overfitter)
+
+
+Kjøre transformer for å få dp til å få 0/1 og vise at den sliter med minne.
+Kjøre tedi med ulik horizon, obs=2 og ulik action/chunk lengde for å forhåpentligvis gjøre det bedre enn dp. Mål om å vise at den har minne til å huske hvilket målområde som er korrekt. Sammenligne med UNet DP til slutt.
+- Kan være lurt å lage nye demonstrasjoner, altså flere jo bedre. Mer generalisert.
+- Nytt env med t'en i midten???
+
+Run 181 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.39
+
+Run 182 dataset pusht_memory_v1. unet pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=8. Score:0.609
+
+Run 183 dataset pusht_memory_v1. tedi pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.608
+
+Run 184 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=8. Score:0.52
+
+Run 185 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=8. Score:0.603
+
+Run 186 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 24. n_obs_steps=2. action=2. Score:0.484

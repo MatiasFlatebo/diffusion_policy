@@ -305,18 +305,18 @@ class PushTKeypointsEnvVisualizeBuffer(PushTMemoryEnv):
 if __name__ == "__main__":
     
     # 1. Load policy
-    checkpoint = "data/outputs/2025.03.12/13.22.36_train_diffusion_transformer_lowdim_pusht_memory_lowdim/checkpoints/epoch=0800-test_mean_score=0.616.ckpt"
-    #checkpoint = "data/outputs/2025.03.12/22.33.23_train_tedi_ddim_unet_lowdim_pusht_memory_lowdim/checkpoints/epoch=0750-test_mean_score=0.516.ckpt"
+    #checkpoint = "data/outputs/2025.03.12/13.22.36_train_diffusion_transformer_lowdim_pusht_memory_lowdim/checkpoints/epoch=0800-test_mean_score=0.616.ckpt"
+    checkpoint = "data/outputs/2025.03.18/10.06.04_train_tedi_ddim_unet_lowdim_pusht_memory_lowdim/checkpoints/epoch=0300-test_mean_score=0.484.ckpt"
     
-    #vis_policy = TEDiVisualizeBufferPolicy(checkpoint)
-    vis_policy = DiffusionVisualizeBufferPolicy(checkpoint)
+    vis_policy = TEDiVisualizeBufferPolicy(checkpoint)
+    #vis_policy = DiffusionVisualizeBufferPolicy(checkpoint)
     device = torch.device("cuda:0")
     vis_policy.to(device)
     vis_policy.eval()
     obs_horizon = vis_policy.n_obs_steps
 
     # limit enviornment interaction to 200 steps before termination
-    max_steps = 50
+    max_steps = 300
     env = PushTKeypointsEnvVisualizeBuffer(render_size=768)
     env.set_buffer_color("robin_egg_blue")
     env.set_path_color("slate_blue")  # Default color for the path
@@ -407,7 +407,7 @@ if __name__ == "__main__":
 
     # visualize
     from IPython.display import Video
-    video_path = 'visualization/video/pusht_memory/vis_dp_16-2-8.mp4'
+    video_path = 'visualization/video/pusht_memory/vis_tedi_DDIM_24-2-2.mp4'
     vwrite(video_path, imgs)
     print('Done saving to ', video_path)
 
