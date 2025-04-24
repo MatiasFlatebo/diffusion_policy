@@ -78,16 +78,24 @@ class PushTMemoryLowdimDataset(BaseLowdimDataset):
     def _sample_to_data(self, sample):
         keypoint = sample[self.obs_key]
         state = sample[self.state_key]
-        agent_pos = state[:,:2]
+        
+        # Extract agent_pos and goal_index
+        agent_pos = state[:, :2]          # shape (T, 2)
+        goal_index = state[:, -1:]        # shape (T, 1) — keep last dim!
+
+        # Combine everything
         obs = np.concatenate([
             keypoint.reshape(keypoint.shape[0], -1), 
-            agent_pos], axis=-1)
+            agent_pos,
+            goal_index
+        ], axis=-1)
 
         data = {
-            'obs': obs, # T, D_o
-            'action': sample[self.action_key], # T, D_a
+            'obs': obs,  # shape [T, 21]
+            'action': sample[self.action_key],  # [T, D_a]
         }
         return data
+
 
     def __getitem__(self, idx: int) -> Dict[str, torch.Tensor]:
         sample = self.sampler.sample_sequence(idx)

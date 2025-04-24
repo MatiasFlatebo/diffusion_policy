@@ -93,10 +93,20 @@ def main(output, render_size, control_hz):
             if not act is None:
                 # teleop started
                 # state dim 2+3
-                state = np.concatenate([info['pos_agent'], info['block_pose']])
+                goal_index = float(info['goal_pose_idx'])
+                state = np.concatenate([info['pos_agent'], info['block_pose'], [goal_index]])
                 # discard unused information such as visibility mask and agent pos
                 # for compatibility
-                keypoint = obs.reshape(2,-1)[0].reshape(-1,2)[:9]
+
+                # Note: Last element of obs is goal index, not part of keypoints
+                # total obs size = keypoints + mask + 1 extra goal index
+                obs_no_goal = obs[:-1]  # remove goal index
+                half = obs_no_goal.shape[0] // 2
+
+                # Split keypoints and mask
+                keypoints_flat = obs_no_goal[:half]
+                keypoint = keypoints_flat.reshape(-1, 2)[:9]
+
                 data = {
                     'img': img,
                     'state': np.float32(state),

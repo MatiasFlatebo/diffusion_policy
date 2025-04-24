@@ -1,10 +1,10 @@
 from typing import Dict, Sequence, Union, Optional
 from gym import spaces
-from diffusion_policy.env.pusht_memory.pusht_memory_env import PushTMemoryEnv
+from diffusion_policy.env.pusht_memory.pusht_memory_env_v2 import PushTMemoryEnv_v2
 from diffusion_policy.env.pusht_memory.pymunk_keypoint_manager import PymunkKeypointManager
 import numpy as np
 
-class PushTMemoryKeypointsEnv(PushTMemoryEnv):
+class PushTMemoryKeypointsEnv_v2(PushTMemoryEnv_v2):
     def __init__(self,
             legacy=False,
             block_cog=None, 
@@ -73,7 +73,7 @@ class PushTMemoryKeypointsEnv(PushTMemoryEnv):
 
     @classmethod
     def genenerate_keypoint_manager_params(cls):
-        env = PushTMemoryEnv()
+        env = PushTMemoryEnv_v2()
         kp_manager = PymunkKeypointManager.create_from_pusht_env(env)
         kp_kwargs = kp_manager.kwargs
         return kp_kwargs
@@ -122,7 +122,7 @@ class PushTMemoryKeypointsEnv(PushTMemoryEnv):
         goal_index = float(self.chosen_goal_idx) if not self.hide_goal else -1.0
         obs = np.concatenate([obs, [goal_index]])
         obs_mask = np.concatenate([obs_mask, [1.0]])
-        
+
         # obs, obs_mask
         obs = np.concatenate([
             obs, obs_mask.astype(obs.dtype)

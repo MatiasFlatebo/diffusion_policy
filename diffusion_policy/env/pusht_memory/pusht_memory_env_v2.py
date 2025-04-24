@@ -25,7 +25,7 @@ def pymunk_to_shapely(body, shapes):
     geom = sg.MultiPolygon(geoms)
     return geom
 
-class PushTMemoryEnv(gym.Env):
+class PushTMemoryEnv_v2(gym.Env):
     metadata = {"render.modes": ["human", "rgb_array"], "video.frames_per_second": 10}
     reward_range = (0., 1.)
 
@@ -35,7 +35,7 @@ class PushTMemoryEnv(gym.Env):
             render_action=True,
             render_size=96,
             reset_to_state=None,
-            goal_masking_timestep=20
+            goal_masking_timestep=1000
 
         ):
         self._seed = None
@@ -110,11 +110,7 @@ class PushTMemoryEnv(gym.Env):
         state = self.reset_to_state
         if state is None:
             rs = np.random.RandomState(seed=seed)
-            state = np.array([
-                rs.randint(50, 450), rs.randint(50, 450),
-                rs.randint(100, 400), rs.randint(100, 400),
-                rs.randn() * 2 * np.pi - np.pi
-                ])
+            state = np.array([256,50,256,256,0])
         self._set_state(state)
 
         observation = self._get_obs()
@@ -188,6 +184,7 @@ class PushTMemoryEnv(gym.Env):
             obs.append(-1.0)  # Distinct sentinel value indicating masked goal
 
         return np.array(obs, dtype=np.float64)
+
 
     def _get_goal_pose_body(self, pose):
         mass = 1

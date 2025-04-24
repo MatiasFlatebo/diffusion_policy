@@ -15,7 +15,7 @@ from gym import spaces
 import collections
 import numpy as np
 import pymunk.pygame_util
-from diffusion_policy.env.pusht_memory.pusht_memory_env import PushTMemoryEnv
+from diffusion_policy.env.pusht_memory.pusht_memory_env_v2 import PushTMemoryEnv_v2
 from diffusion_policy.workspace.base_workspace import BaseWorkspace
 from typing import Dict, Sequence, Union, Optional
 from diffusion_policy.env.pusht.pymunk_keypoint_manager import PymunkKeypointManager
@@ -59,7 +59,7 @@ def add_legend_to_frame(frame, legend, position=(12, int(768/2))):
     return frame
 
 
-class PushTKeypointsEnvVisualizeBuffer(PushTMemoryEnv):
+class PushTKeypointsEnvVisualizeBuffer(PushTMemoryEnv_v2):
     def __init__(self,
             legacy=False,
             block_cog=None, 
@@ -99,6 +99,9 @@ class PushTKeypointsEnvVisualizeBuffer(PushTMemoryEnv):
         else:
             # blockkp + agnet_kp
             Do += Dagentpos
+        
+        Do += 1 # Goal index
+
         # obs + obs_mask
         Dobs = Do * 2
 
@@ -159,7 +162,7 @@ class PushTKeypointsEnvVisualizeBuffer(PushTMemoryEnv):
 
     @classmethod
     def genenerate_keypoint_manager_params(cls):
-        env = PushTMemoryEnv()
+        env = PushTMemoryEnv_v2()
         kp_manager = PymunkKeypointManager.create_from_pusht_env(env)
         kp_kwargs = kp_manager.kwargs
         return kp_kwargs
@@ -249,12 +252,18 @@ class PushTKeypointsEnvVisualizeBuffer(PushTMemoryEnv):
             obs_mask = np.concatenate([
                 obs_mask, np.ones((2,), dtype=bool)
             ])
+            
+        goal_index = float(self.chosen_goal_idx) if not self.hide_goal else -1.0
+        obs = np.concatenate([
+            obs, [goal_index]
+        ])
+        return obs
 
         # obs, obs_mask
         #obs = np.concatenate([
         #    obs, obs_mask.astype(obs.dtype)
         #], axis=0)
-        return obs
+        #return obs
     
     def set_buffer(self, buffer):
         self.buffer = buffer
@@ -306,7 +315,7 @@ if __name__ == "__main__":
     
     # 1. Load policy
     #checkpoint = "data/outputs/2025.03.12/13.22.36_train_diffusion_transformer_lowdim_pusht_memory_lowdim/checkpoints/epoch=0800-test_mean_score=0.616.ckpt"
-    checkpoint = "data/outputs/2025.03.18/10.06.04_train_tedi_ddim_unet_lowdim_pusht_memory_lowdim/checkpoints/epoch=0300-test_mean_score=0.484.ckpt"
+    checkpoint = "data/outputs/2025.04.23/22.58.46_train_tedi_ddim_unet_lowdim_pusht_memory_lowdim/checkpoints/epoch=0650-test_mean_score=0.616.ckpt"
     
     vis_policy = TEDiVisualizeBufferPolicy(checkpoint)
     #vis_policy = DiffusionVisualizeBufferPolicy(checkpoint)
@@ -407,7 +416,7 @@ if __name__ == "__main__":
 
     # visualize
     from IPython.display import Video
-    video_path = 'visualization/video/pusht_memory/vis_tedi_DDIM_24-2-2.mp4'
+    video_path = 'visualization/video/pusht_memory/vis_tedi_DDIM_flexible_20_16-2-4.mp4'
     vwrite(video_path, imgs)
     print('Done saving to ', video_path)
 

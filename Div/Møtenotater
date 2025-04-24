@@ -369,3 +369,59 @@ Run 184 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 32. n_o
 Run 185 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=8. Score:0.603
 
 Run 186 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 24. n_obs_steps=2. action=2. Score:0.484
+
+
+Prøve 185 med 7 i action steps.
+Tenke mer på antall chunks, 2 0g 3.
+Flere runs som bruker ddpm.
+Endre inferens steps til 100 på ddim. Nå endret på tedi lowdim.
+
+Run 187 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=7. Score:0.580
+
+Run 188 dataset pusht_memory_v1. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=15. Score:0.59
+
+
+Lager nytt env med 200 episoder for å se om det har noen forandring. pusht_memory_v2. Virker ikke sånn.
+
+Run 189 dataset pusht_memory_v2. transformer pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=8. Score:0.63
+
+Run 190 dataset pusht_memory_v2. tedi pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.58
+
+Run 191 dataset pusht_memory_v2. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.58
+
+Run 192 dataset pusht_memory_v2. tedi pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=8. Score:0.59
+
+
+Lager nytt env med t'en fast i midten for å se om scoren blir bedre for begge modeller da og evt endre synlighet til at tedi outperformer der.
+
+Run 193 dataset pusht_memory_fixed_spawn. transformer pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=8. Score:0.63
+
+Run 194 dataset pusht_memory_fixed_spawn. tedi pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.56
+
+Run 195 dataset pusht_memory_fixed_spawn. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.69
+
+Run 196 dataset pusht_memory_fixed_spawn. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=8. Score:0.59
+
+
+Prøve å visualisere. Ga meg ikke så mye, men ser nesten ut som det er noe rart med denoisingen. Fordi jeg endret til 100 inference steps? Prøve å finne ut av hvorfor!!
+Prøve med høyere gmts. Lager et nytt en (fixed spawn_v2) med gmts 1000 for å se om den får til 1 i score.
+
+Run 197 dataset pusht_memory_fixed_spawn_v2. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.59 ?? Mål synelig hele tiden.
+
+Run 198 dataset pusht_memory_fixed_spawn_v2. transformer pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=8. Score:0.56
+
+
+La til self.hide_goal = False i reset i environmentet. Må lage nye demonstrasjoner!!!
+
+Hele problemet er at obs ikke har hatt med goal pos noen gang... I tilegg har jeg gjort vondt verre og fjernet t block informasjon etter gmts. Må lage ny obs og nye demonstrasjoner for å teste. Har nå lagt til goal idx i observation (0.0 eller 1.0) og den git -1.0 når mål er skjult. SJEKK AT DETTE STEMMER!!!
+
+Run 199 dataset fixed_1000. transformer pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=8. Score:0.958. Kun med 50 demonstrasjoner.
+
+Run 200 dataset flexible_20. transformer pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=8. Score:0.63
+
+Run 201 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.615
+
+Run 202 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.53
+
+Run 202 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=1. Score:0.
+

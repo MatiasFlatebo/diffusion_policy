@@ -7,7 +7,7 @@ import tqdm
 import dill
 import math
 import wandb.sdk.data_types.video as wv
-from diffusion_policy.env.pusht_memory.pusht_memory_keypoints_env import PushTMemoryKeypointsEnv
+from diffusion_policy.env.pusht_memory.pusht_memory_keypoints_env_v2 import PushTMemoryKeypointsEnv_v2
 from diffusion_policy.gym_util.async_vector_env import AsyncVectorEnv
 # from diffusion_policy.gym_util.sync_vector_env import SyncVectorEnv
 from diffusion_policy.gym_util.multistep_wrapper import MultiStepWrapper
@@ -56,12 +56,12 @@ class PushTMemoryKeypointsRunner(BaseLowdimRunner):
         env_n_action_steps = n_action_steps
 
         # assert n_obs_steps <= n_action_steps
-        kp_kwargs = PushTMemoryKeypointsEnv.genenerate_keypoint_manager_params()
+        kp_kwargs = PushTMemoryKeypointsEnv_v2.genenerate_keypoint_manager_params()
 
         def env_fn():
             return MultiStepWrapper(
                 VideoRecordingWrapper(
-                    PushTMemoryKeypointsEnv(
+                    PushTMemoryKeypointsEnv_v2(
                         legacy=legacy_test,
                         keypoint_visible_rate=keypoint_visible_rate,
                         agent_keypoints=agent_keypoints,

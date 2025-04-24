@@ -1,11 +1,11 @@
-name: pusht_memory_lowdim
+name: pusht_memory_fixed_lowdim
 
 obs_dim: 21 # 9*2 keypoints + 2 state
 action_dim: 2
 keypoint_dim: 2
 
 env_runner:
-  _target_: diffusion_policy.env_runner.pusht_memory_keypoints_runner.PushTMemoryKeypointsRunner
+  _target_: diffusion_policy.env_runner.pusht_memory_fixed_keypoints_runner.PushTMemoryKeypointsRunner
   keypoint_visible_rate: ${keypoint_visible_rate}
   n_train: 6
   n_train_vis: 2
@@ -25,7 +25,7 @@ env_runner:
 
 dataset:
   _target_: diffusion_policy.dataset.pusht_memory_dataset.PushTMemoryLowdimDataset
-  zarr_path: data/pusht_memory/flexible_20.zarr
+  zarr_path: data/pusht_memory/fixed_1000.zarr
   horizon: ${horizon}
   pad_before: ${eval:'${n_obs_steps}-1+${n_latency_steps}'}
   pad_after: ${eval:'${n_action_steps}-1'}
