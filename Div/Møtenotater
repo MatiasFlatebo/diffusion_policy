@@ -423,5 +423,13 @@ Run 201 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_s
 
 Run 202 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.53
 
-Run 202 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=1. Score:0.
+Run 203 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=1. Score:0.54
+
+Run 204 dataset flexible_20. unet ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.62
+
+Run 205 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.62
+
+Run 206 dataset flexible_20. unet ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.62
+
+Run 207 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.58
 
