@@ -7,7 +7,7 @@ import tqdm
 import dill
 import math
 import wandb.sdk.data_types.video as wv
-from diffusion_policy.env.pusht_memory.pusht_memory_keypoints_env_v2 import PushTMemoryKeypointsEnv_v2
+from diffusion_policy.env.pusht_memory.pusht_memory_fixed_keypoints_env import PushTMemoryKeypointsEnv_v2
 from diffusion_policy.gym_util.async_vector_env import AsyncVectorEnv
 # from diffusion_policy.gym_util.sync_vector_env import SyncVectorEnv
 from diffusion_policy.gym_util.multistep_wrapper import MultiStepWrapper

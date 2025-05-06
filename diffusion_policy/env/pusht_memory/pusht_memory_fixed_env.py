@@ -35,7 +35,7 @@ class PushTMemoryEnv_v2(gym.Env):
             render_action=True,
             render_size=96,
             reset_to_state=None,
-            goal_masking_timestep=1000
+            goal_masking_timestep=2
 
         ):
         self._seed = None

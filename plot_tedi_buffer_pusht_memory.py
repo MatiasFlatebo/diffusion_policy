@@ -15,7 +15,7 @@ from gym import spaces
 import collections
 import numpy as np
 import pymunk.pygame_util
-from diffusion_policy.env.pusht_memory.pusht_memory_env_v2 import PushTMemoryEnv_v2
+from diffusion_policy.env.pusht_memory.pusht_memory_fixed_env import PushTMemoryEnv_v2
 from diffusion_policy.workspace.base_workspace import BaseWorkspace
 from typing import Dict, Sequence, Union, Optional
 from diffusion_policy.env.pusht.pymunk_keypoint_manager import PymunkKeypointManager

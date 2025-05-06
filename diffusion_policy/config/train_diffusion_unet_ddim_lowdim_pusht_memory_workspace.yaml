@@ -2,7 +2,7 @@ defaults:
   - _self_
   - task: pusht_memory_lowdim
 
-name: train_diffusion_unet_lowdim
+name: train_diffusion_unet_ddim_lowdim
 _target_: diffusion_policy.workspace.train_diffusion_unet_lowdim_workspace.TrainDiffusionUnetLowdimWorkspace
 
 obs_dim: ${task.obs_dim}
@@ -11,7 +11,7 @@ action_dim: ${task.action_dim}
 task_name: ${task.name}
 exp_name: "default"
 
-horizon: 32
+horizon: 16
 n_obs_steps: 2
 n_action_steps: 4
 n_latency_steps: 0

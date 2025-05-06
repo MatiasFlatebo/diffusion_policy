@@ -433,3 +433,50 @@ Run 206 dataset flexible_20. unet ddim pusht_memory lowdim. horizon= 32. n_obs_s
 
 Run 207 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.58
 
+Run 208 dataset fixed_1000. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.98. Kun med 50 demonstrasjoner.
+
+
+Lagde fixed_20, med 75 demos.
+
+
+Run 209 dataset fixed_20. unet ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.96. Velger riktig. Sliter med å nå 0.95 slik at episoden slutter. Drar ofte t-en vekk fra mål og termineres på tid.
+
+
+Lagde fixed_2, med 75 demos.
+
+
+Run 210 dataset fixed_2. unet ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.94
+Run 211 dataset fixed_2. unet ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.92 (Kjørte feil)
+
+
+Lagde flexible_1000, med 100 demos.
+
+
+Run 212 dataset flexible_1000. unet ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.78
+
+Run 213 dataset flexible_1000. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.76
+
+
+Lagde flexible_5, med 150 demos. I håp om at dp blir litt dårligere, mens tedi klarer å utnytte den lille tiden målet synes.
+
+
+Run 214 dataset flexible_5. unet ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.57
+
+Run 215 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.62
+
+Run 216 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 24. n_obs_steps=6. action=6. Score:0.52
+
+Run 217 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=6. action=4. Score:0.54
+
+Run 218 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.
+
+
+
+Øke horizon. Øke obs steps og action
+
+
+TODO:
+- Lese related works. Skrive notater om hver artikkel og sammenligne med hva som gjøres i tedi og skrive i overleaf
+- RQ2: Konstruere en oppgave der dp klarer oppgaven men må velge mellom to eller flere mål. Vise at tedi velger oftere riktig.
+    - Teste 2 gmts for å se hvordan de reagerer da. Bytte litt obs horizon og horizon.
+    - Lage nytt env der ikke goal idx, men hele posen blir sendt i obs for å se om det endrer ting. (tips fra chat, phd mener det ikke har noe for seg.)

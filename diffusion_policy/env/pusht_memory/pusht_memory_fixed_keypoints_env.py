@@ -1,6 +1,6 @@
 from typing import Dict, Sequence, Union, Optional
 from gym import spaces
-from diffusion_policy.env.pusht_memory.pusht_memory_env_v2 import PushTMemoryEnv_v2
+from diffusion_policy.env.pusht_memory.pusht_memory_fixed_env import PushTMemoryEnv_v2
 from diffusion_policy.env.pusht_memory.pymunk_keypoint_manager import PymunkKeypointManager
 import numpy as np
 
