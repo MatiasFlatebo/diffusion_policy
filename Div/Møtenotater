@@ -480,3 +480,47 @@ TODO:
 - RQ2: Konstruere en oppgave der dp klarer oppgaven men må velge mellom to eller flere mål. Vise at tedi velger oftere riktig.
     - Teste 2 gmts for å se hvordan de reagerer da. Bytte litt obs horizon og horizon.
     - Lage nytt env der ikke goal idx, men hele posen blir sendt i obs for å se om det endrer ting. (tips fra chat, phd mener det ikke har noe for seg.)
+
+
+
+Diff-Control steps:
+SDP struggles with memory because it’s a stateless policy that relies only on the current observation, making it ineffective when goal information disappears (as in your Push-T environment).
+
+Diff-Control introduces memory by adding a ControlNet-based transition model that conditions the policy on previous actions, effectively acting as a learned temporal prior.
+
+This transition model allows the policy to maintain goal-directed behavior even after the goal is no longer visible, by continuing motion consistent with past actions.
+
+ControlNet is compatible with SDP since both use U-Net-style diffusion models, and the additional conditioning from previous actions can be injected efficiently into the denoising process.
+
+The implementation involves adding a lightweight ControlNet branch to the SDP network, which takes in recent action history and modulates the output of the base diffusion model.
+
+Training is done in two stages: first, train SDP as usual, then freeze it and train the ControlNet branch to inject temporal consistency using demonstration data.
+
+This preserves SDP’s low-latency performance, because the added computation is minor and no extra diffusion steps are introduced.
+
+In your task, this means the robot can remember where the goal was and continue pushing the block in the right direction, even when the goal disappears.
+
+The key requirement is that the robot’s previous actions contain meaningful directional intent, which the ControlNet can learn to carry forward.
+
+Overall, this approach would add memory and statefulness to SDP, likely solving the issue you observed and enabling better performance in partially observable tasks like Push-T.
+
+
+
+Spurte chat om det kommer til å bli vanskelig:
+
+You don’t need to re-architect SDP completely — you're augmenting it, not replacing it.
+
+ControlNet is modular: you can clone part of the existing SDP U-Net (the encoder), attach it in parallel, and inject its features via simple additions or residuals.
+
+Two-stage training simplifies things: you freeze the base SDP policy and only train the new ControlNet branch, reducing training instability.
+
+You can use existing open-source code as a template — both SDP and Diff-Control are publicly available and well-documented.
+
+Hva som krever innstas:
+You’ll need to design and integrate a ControlNet-style encoder for previous actions (e.g., past 5–10 actions, using 1D convs or MLPs).
+
+You must inject those features into the main U-Net at the right places — typically after downsampling stages, using additive or concat-based conditioning.
+
+Training requires good supervision — if your Push-T demos don’t include examples with goal occlusion, you might need to augment them.
+
+You’ll need to validate and tune the balance between the observation model and the ControlNet prior — too strong a prior could reduce reactivity.
