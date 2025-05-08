@@ -148,7 +148,7 @@ class MemoryEnvVisualizeBuffer(MemoryEnv_v4):
 if __name__ == "__main__":
     
     # 1. Load policy
-    checkpoint = "data/outputs/2025.03.12/16.53.13_train_tedi_ddim_unet_lowdim_pusht_memory_lowdim/checkpoints/epoch=0350-test_mean_score=0.494.ckpt"
+    checkpoint = "data/outputs/2025.03.04/13.34.56_train_tedi_ddim_unet_lowdim_memory_lowdim/checkpoints/epoch=0750-test_mean_score=0.735.ckpt"
     #checkpoint = "data/outputs/2025.03.12/13.22.36_train_diffusion_transformer_lowdim_pusht_memory_lowdim/checkpoints/epoch=0800-test_mean_score=0.616.ckpt"
 
     vis_policy = TEDiVisualizeBufferPolicy(checkpoint)
@@ -159,7 +159,7 @@ if __name__ == "__main__":
     obs_horizon = vis_policy.n_obs_steps
 
     # limit enviornment interaction to 200 steps before termination
-    max_steps = 50
+    max_steps = 300
     env = MemoryEnvVisualizeBuffer(render_size=768)
     env.set_buffer_color("robin_egg_blue")
     env.set_path_color("slate_blue")
@@ -245,7 +245,7 @@ if __name__ == "__main__":
 
     # visualize
     from IPython.display import Video
-    video_path = 'visualization/video/vis_tedi.mp4'
+    video_path = 'visualization/video/memory/v4_16-2-1/test.mp4'
     vwrite(video_path, imgs)
     print('Done saving to ', video_path)
 

@@ -11,7 +11,7 @@ action_dim: ${task.action_dim}
 task_name: ${task.name}
 exp_name: "default"
 
-horizon: 32
+horizon: 48
 n_obs_steps: 2
 n_action_steps: 4
 n_latency_steps: 0
@@ -107,7 +107,7 @@ training:
   # optimization
   lr_scheduler: cosine
   lr_warmup_steps: 500
-  num_epochs: 850
+  num_epochs: 401
   gradient_accumulate_every: 1
   use_ema: True
   # training loop control

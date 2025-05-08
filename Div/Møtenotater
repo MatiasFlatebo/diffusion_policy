@@ -439,7 +439,8 @@ Run 208 dataset fixed_1000. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_st
 Lagde fixed_20, med 75 demos.
 
 
-Run 209 dataset fixed_20. unet ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.96. Velger riktig. Sliter med å nå 0.95 slik at episoden slutter. Drar ofte t-en vekk fra mål og termineres på tid.
+Run 209 dataset fixed_20. unet ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.96.
+Velger riktig. Sliter med å nå 0.95 slik at episoden slutter. Drar ofte t-en vekk fra mål og termineres på tid.
 
 
 Lagde fixed_2, med 75 demos.
@@ -468,7 +469,9 @@ Run 216 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 24. n_obs_st
 
 Run 217 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=6. action=4. Score:0.54
 
-Run 218 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.
+Run 218 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.49
+
+
 
 Run 219 dataset test_20. tedi state ddim pusht_memory lowdim. past_action_weight=0.5. horizon= 16. n_obs_steps=2. action=4. Score:0.00
 
@@ -477,7 +480,8 @@ Run 220 dataset test_20. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps
 Run 221 continuation of run 220 with past_action_weight=0.5 and past_action_window=4. Score:0.0 Klikker på samme måte som før, agent alltid ned til høyre hjørnet.
 
 
-Øke horizon. Øke obs steps og action
+Run 222 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 48. n_obs_steps=2. action=4. Score:0.
+
 
 
 TODO:
@@ -487,45 +491,6 @@ TODO:
     - Lage nytt env der ikke goal idx, men hele posen blir sendt i obs for å se om det endrer ting. (tips fra chat, phd mener det ikke har noe for seg.)
 
 
-
-Diff-Control steps:
-SDP struggles with memory because it’s a stateless policy that relies only on the current observation, making it ineffective when goal information disappears (as in your Push-T environment).
-
-Diff-Control introduces memory by adding a ControlNet-based transition model that conditions the policy on previous actions, effectively acting as a learned temporal prior.
-
-This transition model allows the policy to maintain goal-directed behavior even after the goal is no longer visible, by continuing motion consistent with past actions.
-
-ControlNet is compatible with SDP since both use U-Net-style diffusion models, and the additional conditioning from previous actions can be injected efficiently into the denoising process.
-
-The implementation involves adding a lightweight ControlNet branch to the SDP network, which takes in recent action history and modulates the output of the base diffusion model.
-
-Training is done in two stages: first, train SDP as usual, then freeze it and train the ControlNet branch to inject temporal consistency using demonstration data.
-
-This preserves SDP’s low-latency performance, because the added computation is minor and no extra diffusion steps are introduced.
-
-In your task, this means the robot can remember where the goal was and continue pushing the block in the right direction, even when the goal disappears.
-
-The key requirement is that the robot’s previous actions contain meaningful directional intent, which the ControlNet can learn to carry forward.
-
-Overall, this approach would add memory and statefulness to SDP, likely solving the issue you observed and enabling better performance in partially observable tasks like Push-T.
-
-
-
-Spurte chat om det kommer til å bli vanskelig:
-
-You don’t need to re-architect SDP completely — you're augmenting it, not replacing it.
-
-ControlNet is modular: you can clone part of the existing SDP U-Net (the encoder), attach it in parallel, and inject its features via simple additions or residuals.
-
-Two-stage training simplifies things: you freeze the base SDP policy and only train the new ControlNet branch, reducing training instability.
-
-You can use existing open-source code as a template — both SDP and Diff-Control are publicly available and well-documented.
-
-Hva som krever innstas:
-You’ll need to design and integrate a ControlNet-style encoder for previous actions (e.g., past 5–10 actions, using 1D convs or MLPs).
-
-You must inject those features into the main U-Net at the right places — typically after downsampling stages, using additive or concat-based conditioning.
-
-Training requires good supervision — if your Push-T demos don’t include examples with goal occlusion, you might need to augment them.
-
-You’ll need to validate and tune the balance between the observation model and the ControlNet prior — too strong a prior could reduce reactivity.
+Graf i wandb:
+Lilla - run 215 16-2-4
+Rød - run 218 32-2-4
