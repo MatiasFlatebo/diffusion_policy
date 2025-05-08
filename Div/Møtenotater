@@ -470,6 +470,11 @@ Run 217 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_st
 
 Run 218 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.
 
+Run 219 dataset test_20. tedi state ddim pusht_memory lowdim. past_action_weight=0.5. horizon= 16. n_obs_steps=2. action=4. Score:0.00
+
+Run 220 dataset test_20. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.65
+
+Run 221 continuation of run 220 with past_action_weight=0.5 and past_action_window=4. Score:0.0 Klikker på samme måte som før, agent alltid ned til høyre hjørnet.
 
 
 Øke horizon. Øke obs steps og action

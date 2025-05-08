@@ -1,0 +1,95 @@
+Implementation of Diff-Control in SDP
+
+Goal: Inject past action history into the denoising model via a ControlNet-like module,
+making the policy stateful and able to "remember" the goal direction even after it disappears.
+
+Skal legge til en ControlNet branch som er en parallell nn module som tar inn past actions og encoder det til til en feature map for
+så å legge til de featurene i hoved Unet modellen flere steder under denoising. 
+
+
+1. Lagd copier av tedi_unet_lowdim_policy og conditional_unet1d_tedi og byttet til TEDiState navn.
+2. Endret conditional_unet1d_tedi_state.
+- This only adds functionality — nothing breaks in your original model.
+- If past_action_cond is None, the model behaves exactly like before.
+- You can now condition your streaming diffusion model on past actions.
+
+3. Endret tedi_state_unet_lowdim_policy.
+- Added past_action_horizon to __init__
+- Reset past_action_buffer in reset_buffer
+- Add a helper to get past actions
+- Store executed actions into the buffer
+- Pass past actions into model call
+- Do the same in compute_loss()
+
+I have now:
+- Added a past-action conditioning buffer,
+- Fed it into a ControlNet-style model (StatefulConditionalUnet1D),
+- Preserved all original behavior when past_action_cond is None.
+
+4. Kopiert train_tedi_unet_ddim_pusht_memory_lowdim_workspace.yaml og lagd ny.
+Endret policy og model target til de nye filene jeg har lagd. Lagt til action horizon og ført til model og policy.
+
+Yes, Your Implementation Covers All the Necessary Components for Diff Control:
+After reviewing your recent implementations and the configuration file, you have successfully:
+
+Updated the StatefulConditionalUnet1D model:
+- Integrated the past_action_cond input.
+- Implemented the past action encoder.
+- Injected the past action feature in the forward pass.
+
+Updated the Policy Class:
+- Added the past_action_horizon and past_action_buffer.
+- Modified the predict_action method to condition on the past actions.
+- Adjusted the initialize_buffer and conditional_sample methods to handle past action conditioning.
+
+Updated the Training Configuration:
+- Added past_action_visible and past_action_horizon.
+- Adjusted the StatefulConditionalUnet1D configuration to accept the past_action_dim.
+
+Lager nytt env:
+- Added a buffer to store past actions
+- Updated the step function to store past actions.
+
+Nytt demo script:
+- Kopiert det gamle og byttet navn.
+- Lagt til past action buffer
+- Include past action in data collection
+- Update past action buffer etter hver gang vi tar et step
+- Added a reset of the past action buffer before retry break.
+
+Ny dataset.py fil:
+- Update the ReplayBuffer initialization to include past_actions.
+- Extract and handle the past_actions data in the _sample_to_data method.
+- Include past_actions in the data dictionary returned by the __getitem__ method.
+
+
+
+Past action visible and past action horizon i config:
+past_action_visible: This is a boolean flag that controls whether the model and scheduler should consider past actions as conditioning inputs.
+It is used to enable or disable the past action conditioning mechanism.
+past_action_horizon: This is an integer value that specifies the number of past actions to be considered as context for the current denoising step.
+It defines the length of the window of past actions.
+
+In the model init:
+If past_action_visible is True, past_action_dim is set to the action_dim.
+If past_action_visible is False, past_action_dim is set to None.
+This configuration is used to define the size of the past action encoder in the StatefulConditionalUnet1D model.
+
+In the model forward pass: 
+If past_action_visible is True, the get_past_action_cond() method will return a tensor of past actions based on the past_action_horizon.
+If False, the method will return None, and the model will proceed without past action conditioning.
+
+In the scheduler:
+If past_action_visible is None, the scheduler will ignore past actions.
+If past_action_visible is a tensor, it will be injected into the denoising process as control information.
+
+Endret ddim og ddpm scheduler:
+- Lagt til past_action_visible i step functionen som en optional.
+- La til past action conditioning.
+
+"The addition of past_action_visible is effectively a residual connection.
+This is crucial because it allows the model to adjust its prediction based on prior actions without completely overriding the model's output."
+
+
+OBS: Bruker bare past_action_weight i scheduler. Skal jeg ha det i modellen???
+

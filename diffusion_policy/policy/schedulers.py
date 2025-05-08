@@ -120,6 +120,8 @@ class DDPMTEDiScheduler(SchedulerMixin, ConfigMixin):
         variance_type: str = "fixed_small",
         clip_sample: bool = True,
         prediction_type: str = "epsilon",
+        past_action_weight: float = 1.0,  # New parameter
+
         **kwargs,
     ):
         message = (
@@ -262,6 +264,11 @@ class DDPMTEDiScheduler(SchedulerMixin, ConfigMixin):
             "Please make sure to instantiate your scheduler with `prediction_type` instead. E.g. `scheduler ="
             " DDPMScheduler.from_pretrained(<model_id>, prediction_type='epsilon')`."
         )
+
+        # New! Extract past action conditioning and weight from kwargs
+        past_action_visible = kwargs.get("past_action_visible", None)
+        past_action_weight = kwargs.get("past_action_weight", 1.0)
+
         predict_epsilon = deprecate("predict_epsilon", "0.12.0", message, take_from=kwargs)
         if predict_epsilon is not None:
             new_config = dict(self.config)
@@ -313,6 +320,11 @@ class DDPMTEDiScheduler(SchedulerMixin, ConfigMixin):
                 " `v_prediction`  for the DDPMScheduler."
             )
 
+        # NEW! Apply past action conditioning if provided
+        if past_action_visible is not None:
+            pred_original_sample += past_action_weight * past_action_visible
+
+        
         # 3. Clip "predicted x_0"
         if self.config.clip_sample:
             pred_original_sample = torch.clamp(pred_original_sample, -1, 1)
@@ -502,6 +514,8 @@ class DDIMTEDiScheduler(SchedulerMixin, ConfigMixin):
         set_alpha_to_one: bool = True,
         steps_offset: int = 0,
         prediction_type: str = "epsilon",
+        past_action_weight: float = 1.0,  # New parameter
+
         **kwargs,
     ):
         message = (
@@ -597,6 +611,7 @@ class DDIMTEDiScheduler(SchedulerMixin, ConfigMixin):
         generator=None,
         variance_noise: Optional[torch.FloatTensor] = None,
         return_dict: bool = True,
+        **kwargs,
     ) -> Union[DDIMSchedulerOutput, Tuple]:
         """
         Predict the sample at the previous timestep by reversing the SDE. Core function to propagate the diffusion
@@ -628,6 +643,10 @@ class DDIMTEDiScheduler(SchedulerMixin, ConfigMixin):
             raise ValueError(
                 "Number of inference steps is 'None', you need to run 'set_timesteps' after creating the scheduler"
             )
+
+        # New! Extract past action conditioning and weight from kwargs
+        past_action_visible = kwargs.get("past_action_visible", None)
+        past_action_weight = kwargs.get("past_action_weight", 1.0)
 
         # See formulas (12) and (16) of DDIM paper https://arxiv.org/pdf/2010.02502.pdf
         # Ideally, read DDIM paper in-detail understanding
@@ -676,6 +695,10 @@ class DDIMTEDiScheduler(SchedulerMixin, ConfigMixin):
                 f"prediction_type given as {self.config.prediction_type} must be one of `epsilon`, `sample`, or"
                 " `v_prediction`"
             )
+
+        # NEW! Apply past action conditioning if provided
+        if past_action_visible is not None:
+            pred_original_sample += past_action_weight * past_action_visible
 
         # 4. Clip "predicted x_0"
         if self.config.clip_sample:
