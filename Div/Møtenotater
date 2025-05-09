@@ -479,8 +479,29 @@ Run 220 dataset test_20. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps
 
 Run 221 continuation of run 220 with past_action_weight=0.5 and past_action_window=4. Score:0.0 Klikker på samme måte som før, agent alltid ned til høyre hjørnet.
 
+Lagde nytt environment, fixed_random_agent_5 med 100 demos. Hypotesen er at det blir vanskelig for dp å vite hvilket mål som t'en skal til siden målet vises så kort at man ikke "rekker bort" til blokken før målet er borte, mens tedi med økt horizon har noisy actions i riktig retning for å klare oppgaven. Det er satt opp fordi fixed blir for lett ettersom den velger mode alt for tidlig og flexible blir for mange retninger og skift til at det er vanskelig å bli stateful. 
 
-Run 222 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 48. n_obs_steps=2. action=4. Score:0.
+Run 222 dataset fixed_random_agent_5. unet ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.51
+
+Run 223 dataset fixed_random_agent_5. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=4. Score:0.88 (Se på seed1004 for å sammenligne denne og unet over.)
+
+Run 224 dataset fixed_random_agent_5. tedi ddim pusht_memory lowdim. horizon= 32. n_obs_steps=2. action=4. Score:0.86 (Se på seed1009 og sammenlig med den horizon=16)
+
+Run 225 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 48. n_obs_steps=2. action=4. Score:0.48
+
+Run 226 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 48. n_obs_steps=2. action=4. Score:0.54
+
+Run 227 dataset fixed_random_agent_5. tedi ddim pusht_memory lowdim. horizon= 48. n_obs_steps=2. action=4. Score:0.
+
+
+
+# Ide om hvorfor SDP sliter! 
+Rekker ikke denoise vesentlig slik at fremtidige actions ikke fører til en "mode" eller mot et mål. Målet forsvinner typisk etter 2 action chunk excecutions med gmts=5. Da er fremtidige actions ikke på vei til et mål. Med gmts=20 excecute'er den 5 action chunks. Dette er tedi med 4 action steps.
+
+
+flexible_20 - 100 demos
+flexible_5 - 150 demos
+fixed_random_agent_5 - 100 demos
 
 
 
@@ -492,5 +513,15 @@ TODO:
 
 
 Graf i wandb:
-Lilla - run 215 16-2-4
-Rød - run 218 32-2-4
+Lilla - run 215 16-2-4 gmts_5
+Rød stiplete - run 218 32-2-4 gmts_5
+Oransje - run 225 48-2-4 gmts_5
+
+blå - run 201 16-2-4 gmts_20
+rød dobbel stiplete run 202 32-2-4 gmts_20
+seafoam - run 226 48-2-4 gmts_20
+
+rød - unet run 222 16-2-4 fixed_random_agent_5
+grønn - tedi run 223 16-2-4 fixed_random_agent_5
+lilla - run 224 32-2-4 fixed_random_agent_5
+magenta - run 227 48-2-4 fixed_random_agent_5

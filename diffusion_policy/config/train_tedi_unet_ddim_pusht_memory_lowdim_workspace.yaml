@@ -1,6 +1,6 @@
 defaults:
   - _self_
-  - task: pusht_memory_lowdim
+  - task: pusht_memory_fixed_lowdim # Endre her for fixed eller flexible!!!
 
 name: train_tedi_ddim_unet_lowdim
 _target_: diffusion_policy.workspace.train_tedi_lowdim_workspace.TrainTEDiUnetLowdimWorkspace

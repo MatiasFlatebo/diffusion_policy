@@ -1,6 +1,6 @@
 defaults:
   - _self_
-  - task: pusht_memory_lowdim
+  - task: pusht_memory_fixed_lowdim
 
 name: train_diffusion_unet_ddim_lowdim
 _target_: diffusion_policy.workspace.train_diffusion_unet_lowdim_workspace.TrainDiffusionUnetLowdimWorkspace
@@ -99,7 +99,7 @@ training:
   # optimization
   lr_scheduler: cosine
   lr_warmup_steps: 500
-  num_epochs: 850
+  num_epochs: 401
   gradient_accumulate_every: 1
   use_ema: True
   # training loop control

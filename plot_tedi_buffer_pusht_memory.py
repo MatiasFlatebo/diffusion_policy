@@ -314,8 +314,8 @@ class PushTKeypointsEnvVisualizeBuffer(PushTMemoryEnv):
 if __name__ == "__main__":
     
     # 1. Load policy
-    #checkpoint = "data/outputs/2025.03.12/13.22.36_train_diffusion_transformer_lowdim_pusht_memory_lowdim/checkpoints/epoch=0800-test_mean_score=0.616.ckpt"
-    checkpoint = "data/outputs/2025.04.24/08.45.35_train_tedi_ddim_unet_lowdim_pusht_memory_lowdim/checkpoints/epoch=0450-test_mean_score=0.535.ckpt"
+    #checkpoint = "data/outputs/2025.05.08/19.10.08_train_diffusion_unet_ddim_lowdim_pusht_memory_fixed_lowdim/checkpoints/epoch=0400-test_mean_score=0.512.ckpt"
+    checkpoint = "data/outputs/2025.05.08/23.19.21_train_tedi_ddim_unet_lowdim_pusht_memory_lowdim/checkpoints/epoch=0750-test_mean_score=0.481.ckpt"
     
     vis_policy = TEDiVisualizeBufferPolicy(checkpoint)
     #vis_policy = DiffusionVisualizeBufferPolicy(checkpoint)
@@ -419,7 +419,7 @@ if __name__ == "__main__":
 
         # visualize
         from IPython.display import Video
-        video_path = f"visualization/video/pusht_memory/gmts_20/tedi_32-2-4/{seed}.mp4"
+        video_path = f"visualization/video/pusht_memory/gmts_5/tedi_48-2-4/{seed}.mp4"
         vwrite(video_path, imgs)
         print('Done saving to ', video_path)
 

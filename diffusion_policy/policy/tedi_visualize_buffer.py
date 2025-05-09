@@ -106,7 +106,7 @@ class TEDiVisualizeBufferPolicy(TEDiUnetLowdimPolicy):
         self.action_buffer[condition_mask] = condition_data[condition_mask]
         action_pred = self.action_buffer
 
-        print(f"Diffusion steps after sampling {self.buffer_diff_steps[0, :]}")
+        #print(f"Diffusion steps after sampling {self.buffer_diff_steps[0, :]}")
 
         self.action_buffer = self.action_buffer[:, Ta:]
         self.buffer_diff_steps = self.buffer_diff_steps[:, Ta:]

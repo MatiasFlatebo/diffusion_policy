@@ -35,7 +35,7 @@ class PushTMemoryEnv_v2(gym.Env):
             render_action=True,
             render_size=96,
             reset_to_state=None,
-            goal_masking_timestep=2
+            goal_masking_timestep=5
 
         ):
         self._seed = None
@@ -110,7 +110,8 @@ class PushTMemoryEnv_v2(gym.Env):
         state = self.reset_to_state
         if state is None:
             rs = np.random.RandomState(seed=seed)
-            state = np.array([256,50,256,256,0])
+            state = np.array([rs.randint(50, 450), rs.randint(50, 450), # Bytter til random. Agent pos var 256,50
+                              256,256,0])
         self._set_state(state)
 
         observation = self._get_obs()
