@@ -491,7 +491,14 @@ Run 225 dataset flexible_5. tedi ddim pusht_memory lowdim. horizon= 48. n_obs_st
 
 Run 226 dataset flexible_20. tedi ddim pusht_memory lowdim. horizon= 48. n_obs_steps=2. action=4. Score:0.54
 
-Run 227 dataset fixed_random_agent_5. tedi ddim pusht_memory lowdim. horizon= 48. n_obs_steps=2. action=4. Score:0.
+Run 227 dataset fixed_random_agent_5. tedi ddim pusht_memory lowdim. horizon= 48. n_obs_steps=2. action=4. Score:0.58
+
+Run 228 dataset fixed_random_agent_5. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=1. Score:0.90
+
+Run 229 dataset fixed_random_agent_5. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=8. Score:0.92
+
+Run 230 dataset fixed_random_agent_5. tedi ddim pusht_memory lowdim. horizon= 16. n_obs_steps=2. action=13. Score:0.88
+
 
 
 
